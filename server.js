@@ -1,6 +1,7 @@
 const express = require('express');
 const fs = require("fs");
 const cors = require('cors');
+const bodyParser = require('body-parser');
 const path = require('path');
 const fetch = require('node-fetch');
 var CronJob = require('cron').CronJob;
@@ -12,19 +13,22 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 //middlewares
+app.use(bodyParser.json());//parse json
+app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if extended is true parse nested objects
 app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
+    const championkey = req.params.championkey;
+    console.log('youve hit championapi/' + championkey)
+    res.status(200).send('youve hit championapi/' + championkey)
+    
+});
 
 app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
-
-app.post('/lolapi', function(req, res){
-    res.status(200).send('connection established to /lolapi')
-});
-
 
 
 var getChallengerListJob = new CronJob('56 23 * * 0', function() {

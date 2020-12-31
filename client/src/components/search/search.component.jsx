@@ -1,12 +1,9 @@
 import React, {useState} from 'react';
 import './search.styles.css';
 import { withRouter } from 'react-router-dom'; //to get access to history
-
+import {championNames} from '../../miscData.js';
 
 const Search = (props) => {
-    let championNames = ["Annie", "Anivia", "Brand", "Ezreal", "Kayle", "Rammus", "Zyra", "Aatrox", "Shaco", "Sejuani", "Ashe", "Camille"]
-    console.log('search component rendered');
-    console.log(props)
     const [searchTerm, setSearchTerm] = useState('');
     const handleChange = (event) => {
         setSearchTerm(event.target.value);
@@ -16,8 +13,6 @@ const Search = (props) => {
         event.preventDefault();
         console.log('you searched for = ' + searchTerm);
     }
-
-    
 
     return (
         <div className="container">
@@ -34,13 +29,11 @@ const Search = (props) => {
                                 }
                             })
                         }
-                        
                     </datalist>
                     <button type='submit' className="btn btn--primary btn--inside uppercase" onClick={() => props.history.push(`/champions/${searchTerm}`)}>Search</button>
                 </form>
             </div>
         </div>
-
     )
 }
 
