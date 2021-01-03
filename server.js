@@ -1,5 +1,6 @@
 const express = require('express');
 const fs = require("fs");
+const fse = require('fs-extra');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -21,39 +22,32 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
     const championKey = req.params.championkey;
-    const matchListEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlisteuw1.json')));
-    const matchListKR = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistkr.json')));
-    const matchListNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistna1.json')));
-    var matchList = [];
-    for(let i = 0; i < amountOfPlayersFromEachServer; i++){
-        let player = matchListEUW1[i].matches
-    }
 
 
-    res.status(200).send('youve hit championapi/' + championkey)
-    
+    res.status(200).send('youve hit championapi/' + championKey)
 });
+
 
 app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
 
 //getting challenger lists
-var getChallengerListEUW1Job = new CronJob('50 23 * * 0', function() {
+var getChallengerListEUW1Job = new CronJob('47 23 * * 0', function() {
     console.log('Getting Challenger Lists for EUW1');
     //EUW1
     fetch(`https://euw1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => JSON.stringify(data)).then(stringdata => {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengerssummonerideuw1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getChallengerListKRJob = new CronJob('51 23 * * 0', function() {
+var getChallengerListKRJob = new CronJob('48 23 * * 0', function() {
     console.log('Getting Challenger Lists for KR');
     //KR
     fetch(`https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => JSON.stringify(data)).then(stringdata => {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengerssummoneridkr.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getChallengerListNA1Job = new CronJob('52 23 * * 0', function() {
+var getChallengerListNA1Job = new CronJob('49 23 * * 0', function() {
     console.log('Getting Challenger Lists for NA1');
     //NA1
     fetch(`https://na1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => JSON.stringify(data)).then(stringdata => {
@@ -65,7 +59,7 @@ getChallengerListKRJob.start();
 getChallengerListNA1Job.start();
 
 //getting accountid from summonerid
-var getAccountIDFromSummonerIDEUW1Job = new CronJob('53 23 * * 0', function() {
+var getAccountIDFromSummonerIDEUW1Job = new CronJob('50 23 * * 0', function() {
     console.log('Getting Account IDs from Summoner IDS for EUW1');
     //EUW1
     const dataEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengerssummonerideuw1.json')));
@@ -76,7 +70,7 @@ var getAccountIDFromSummonerIDEUW1Job = new CronJob('53 23 * * 0', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountideuw1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getAccountIDFromSummonerIDKRJob = new CronJob('54 23 * * 0', function() {
+var getAccountIDFromSummonerIDKRJob = new CronJob('51 23 * * 0', function() {
     console.log('Getting Account IDs from Summoner IDS for KR');
     //KR
     const dataKR = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengerssummoneridkr.json')));
@@ -87,7 +81,7 @@ var getAccountIDFromSummonerIDKRJob = new CronJob('54 23 * * 0', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidkr.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getAccountIDFromSummonerIDNA1Job = new CronJob('55 23 * * 0', function() {
+var getAccountIDFromSummonerIDNA1Job = new CronJob('52 23 * * 0', function() {
     console.log('Getting Account IDs from Summoner IDS for NA1');
     //NA1
     const dataNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengerssummoneridna1.json')));
@@ -103,7 +97,7 @@ getAccountIDFromSummonerIDKRJob.start();
 getAccountIDFromSummonerIDNA1Job.start();
 
 //getting match list from account id
-var getMatchListFromAccountIDEUW1Job = new CronJob('56 23 * * *', function() {
+var getMatchListFromAccountIDEUW1Job = new CronJob('53 23 * * *', function() {
     console.log('Getting Match List of Challenger Players for EUW1');
     //EUW1
     const accountIDsEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountideuw1.json')));
@@ -113,7 +107,7 @@ var getMatchListFromAccountIDEUW1Job = new CronJob('56 23 * * *', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlisteuw1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getMatchListFromAccountIDKRJob = new CronJob('57 23 * * *', function() {
+var getMatchListFromAccountIDKRJob = new CronJob('54 23 * * *', function() {
     console.log('Getting Match List of Challenger Players for KR');
     //KR
     const accountIDsKR = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidkr.json')));
@@ -123,7 +117,7 @@ var getMatchListFromAccountIDKRJob = new CronJob('57 23 * * *', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistkr.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getMatchListFromAccountIDNA1Job = new CronJob('58 23 * * *', function() {
+var getMatchListFromAccountIDNA1Job = new CronJob('55 23 * * *', function() {
     console.log('Getting Match List of Challenger Players for NA1');
     //NA1
     const accountIDsNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidna1.json')));
@@ -136,6 +130,95 @@ var getMatchListFromAccountIDNA1Job = new CronJob('58 23 * * *', function() {
 getMatchListFromAccountIDEUW1Job.start();
 getMatchListFromAccountIDKRJob.start();
 getMatchListFromAccountIDNA1Job.start();
+
+//creating match lists for each champion
+var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function() {
+    console.log('Creating match lists for each champion for EUW1');
+    const matchListEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlisteuw1.json')));
+    var matchListForEachChampionEUW1 = []; //index of this array == key value of the chamipon it represents
+    //populating matchListForEachChampionEUW1
+    for(let i = 0; i < amountOfPlayersFromEachServer; i++) {
+        let playerName = matchListEUW1[i].summonerName;
+        for(let j = 0; j < 50; j++){
+            if(!(matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion])){
+                matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion] = [];
+            };
+            matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListEUW1[i].matches[j].gameId});
+             
+        }
+    }
+    //putting data from matchListForEachChampionEUW1 to json files
+    for(let i = 0; i < matchListForEachChampionEUW1.length; i++){
+        if(matchListForEachChampionEUW1[i]){
+            fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlisteuw1.json'), JSON.stringify(matchListForEachChampionEUW1[i]), err => {
+                if(err) {
+                  console.log(err);
+                } else {
+                  console.log('The file was saved!');
+                }
+            });
+        }
+    }
+}, null, false, 'America/Los_Angeles');
+var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() {
+    console.log('Creating match lists for each champion for KR');
+    const matchListKR = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistkr.json')));
+    var matchListForEachChampionKR = []; //index of this array == key value of the chamipon it represents
+    //populating matchListForEachChampionKR
+    for(let i = 0; i < amountOfPlayersFromEachServer; i++) {
+        let playerName = matchListKR[i].summonerName;
+        for(let j = 0; j < 50; j++){
+            if(!(matchListForEachChampionKR[matchListKR[i].matches[j].champion])){
+                matchListForEachChampionKR[matchListKR[i].matches[j].champion] = [];
+            };
+            matchListForEachChampionKR[matchListKR[i].matches[j].champion].push({summonerName: playerName, gameId:matchListKR[i].matches[j].gameId});
+             
+        }
+    }
+    //putting data from matchListForEachChampionKR to json files
+    for(let i = 0; i < matchListForEachChampionKR.length; i++){
+        if(matchListForEachChampionKR[i]){
+            fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlistkr.json'), JSON.stringify(matchListForEachChampionKR[i]), err => {
+                if(err) {
+                  console.log(err);
+                } else {
+                  console.log('The file was saved!');
+                }
+            });
+        }
+    }
+}, null, false, 'America/Los_Angeles');
+var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function() {
+    console.log('Creating match lists for each champion for NA1');
+    const matchListNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistna1.json')));
+    var matchListForEachChampionNA1 = []; //index of this array == key value of the chamipon it represents
+    //populating matchListForEachChampionNA1
+    for(let i = 0; i < amountOfPlayersFromEachServer; i++) {
+        let playerName = matchListNA1[i].summonerName;
+        for(let j = 0; j < 50; j++){
+            if(!(matchListForEachChampionNA1[matchListNA1[i].matches[j].champion])){
+                matchListForEachChampionNA1[matchListNA1[i].matches[j].champion] = [];
+            };
+            matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId});
+             
+        }
+    }
+    //putting data from matchListForEachChampionNA1 to json files
+    for(let i = 0; i < matchListForEachChampionNA1.length; i++){
+        if(matchListForEachChampionNA1[i]){
+            fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlistna1.json'), JSON.stringify(matchListForEachChampionNA1[i]), err => {
+                if(err) {
+                  console.log(err);
+                } else {
+                  console.log('The file was saved!');
+                }
+            });
+        }
+    }
+}, null, false, 'America/Los_Angeles');
+createMatchListForEachChampionEUW1Job.start();
+createMatchListForEachChampionKRJob.start();
+createMatchListForEachChampionNA1Job.start();
 
 
 app.listen(PORT, error => {
