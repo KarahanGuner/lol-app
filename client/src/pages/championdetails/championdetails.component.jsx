@@ -12,14 +12,14 @@ function ChampionDetails() {
   const championKey = championNameKeyPairs[champion];
   const championJsonName = championLowerCaseNameJsonNamePairs[champion];//need this version of the champ name to read data from champion.json file
   
-  // useEffect(() => {
-  //   console.log(championKey)
-  //   axios({
-  //     url: `/championapi/${championKey}`,
-  //     method: 'get',
-  //   }).then(response => console.log(response));
+  useEffect(() => {
+    console.log(championKey)
+    axios({
+      url: `/championapi/${championKey}`,
+      method: 'get',
+    }).then(response => console.log(response));
     
-  // }, [championKey]);
+  }, [championKey]);
   
 
   return (

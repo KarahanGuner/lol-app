@@ -12,7 +12,7 @@ require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const amountOfPlayersFromEachServer = 15;
+const amountOfPlayersFromEachServer = 15; //we look at the last 50 matches
 //middlewares
 app.use(bodyParser.json());//parse json
 app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if extended is true parse nested objects
@@ -56,6 +56,7 @@ app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "g
         }
         res.status(200).send(matchList)
     }).catch(e => console.log(e));
+    //res.status(200).send(matchList)
 });
 
 
@@ -174,7 +175,7 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function(
             if(!(matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion])){
                 matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion] = [];
             };
-            matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListEUW1[i].matches[j].gameId});
+            matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListEUW1[i].matches[j].gameId, server: "EUW1"});
              
         }
     }
@@ -202,7 +203,7 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() 
             if(!(matchListForEachChampionKR[matchListKR[i].matches[j].champion])){
                 matchListForEachChampionKR[matchListKR[i].matches[j].champion] = [];
             };
-            matchListForEachChampionKR[matchListKR[i].matches[j].champion].push({summonerName: playerName, gameId:matchListKR[i].matches[j].gameId});
+            matchListForEachChampionKR[matchListKR[i].matches[j].champion].push({summonerName: playerName, gameId:matchListKR[i].matches[j].gameId, server: "KR"});
              
         }
     }
@@ -230,7 +231,7 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function()
             if(!(matchListForEachChampionNA1[matchListNA1[i].matches[j].champion])){
                 matchListForEachChampionNA1[matchListNA1[i].matches[j].champion] = [];
             };
-            matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId});
+            matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId, server: "NA1"});
              
         }
     }
