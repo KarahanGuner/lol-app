@@ -29,34 +29,32 @@ app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "g
     //push matches into a comman array one by one
     for(let i = 0; i < Math.max(matchListEUW1.length, matchListKR.length, matchListNA1.length); i++){
         if(matchListEUW1[i]){
-            matchListEUW1[i].server = 'EUW1'
             matchList.push(matchListEUW1[i])
         }
         if(matchListKR[i]){
-            matchListKR[i].server = 'KR'
             matchList.push(matchListKR[i])
         }
         if(matchListNA1[i]){
-            matchListNA1[i].server = 'NA1'
             matchList.push(matchListNA1[i])
         }
     }
-    //fetch match data for the first 12 matches
-    var matchListFirstTwelveOrLess = [];
-    if(matchList.length <= 12){
-        matchListFirstTwelveOrLess = matchList;
-    } else {
-        matchListFirstTwelveOrLess = matchList.slice(0, 12)
-    }
-    Promise.all(matchListFirstTwelveOrLess.map(match => (
-        fetch(`https://${match.server.toLowerCase()}.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => res.status(200).send(e))
-    ))).then(data => { //once we get the array of resolved matchData we put it back to matchList and send it to client
-        for(let i = 0; i < matchListFirstTwelveOrLess.length; i++){
-            matchList[i].matchData = data[i].participants.find(participant => participant.championId == championKey);
-        }
-        res.status(200).send(matchList)
-    }).catch(e => console.log(e));
-    //res.status(200).send(matchList)
+    // //fetch match data for the first 12 matches
+    // var matchListFirstTwelveOrLess = [];
+    // if(matchList.length <= 12){
+    //     matchListFirstTwelveOrLess = matchList;
+    // } else {
+    //     matchListFirstTwelveOrLess = matchList.slice(0, 12)
+    // }
+    // Promise.all(matchListFirstTwelveOrLess.map(match => (
+    //     fetch(`https://${match.server.toLowerCase()}.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => res.status(200).send(e))
+    // ))).then(data => { //once we get the array of resolved matchData we put it back to matchList and send it to client
+    //     for(let i = 0; i < matchListFirstTwelveOrLess.length; i++){
+    //         matchList[i].matchData = data[i].participants.find(participant => participant.championId == championKey);
+    //     }
+    //     res.status(200).send(matchList)
+    // }).catch(e => console.log(e));
+    
+    res.status(200).send(matchList)
 });
 
 
