@@ -1,7 +1,0 @@
-[{championKey: 12, matches: [{summonerName: 'kara', matchId:123452},{summonerName: 'tal', matchId:177733452}]}, {championKey: 43, matches: [{summonerName: 'scandium', matchId:8888888},{summonerName: 'crazybob61', matchId:4444444}]}]
-
-this arrays has all the matches for each cahmpion for one server you have to do this for each server
-
-or an array of arrays where index is the champion championKey
-
-[undefined, [{summonerName: 'kara', gameId:123452},{summonerName: 'tal', gameId:177733452}]]

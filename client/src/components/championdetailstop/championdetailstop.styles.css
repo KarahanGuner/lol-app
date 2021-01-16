@@ -1,4 +1,14 @@
 .championdetailstop {
     height: 28vh;
     background-color: #253348;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+    color: #c8dbdc;
+    font-family: system-ui;
+}
+
+.champion-picture {
+    border-radius: 5px;
 }
