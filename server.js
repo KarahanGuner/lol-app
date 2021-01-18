@@ -20,6 +20,31 @@ app.use(cors());
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+app.get('/test1', function(req, res){
+    const matchListNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistna1.json')));
+    var matchListForEachChampionNA1 = []; //index of this array == key value of the chamipon it represents
+    //populating matchListForEachChampionNA1
+    for(let i = 0; i < amountOfPlayersFromEachServer; i++) {
+        let playerName = matchListNA1[i].summonerName;
+        for(let j = 0; j < 50; j++){
+            if(!(matchListForEachChampionNA1[matchListNA1[i].matches[j].champion])){
+                matchListForEachChampionNA1[matchListNA1[i].matches[j].champion] = [];
+            };
+            matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId, server: "NA1"});
+             
+        }
+    }
+    //console.log(matchListForEachChampionNA1);
+    matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,5);
+    Promise.all(matchListForEachChampionNA1.map(function(champion){
+        return Promise.all(champion.map(function(match){
+          return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json());
+        }));
+    })).then(function(data) {
+        console.log(data);
+    });
+});
+
 app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
     const championKey = req.params.championkey;
     const matchListEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlisteuw1.json')));
@@ -38,22 +63,6 @@ app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "g
             matchList.push(matchListNA1[i])
         }
     }
-    // //fetch match data for the first 12 matches
-    // var matchListFirstTwelveOrLess = [];
-    // if(matchList.length <= 12){
-    //     matchListFirstTwelveOrLess = matchList;
-    // } else {
-    //     matchListFirstTwelveOrLess = matchList.slice(0, 12)
-    // }
-    // Promise.all(matchListFirstTwelveOrLess.map(match => (
-    //     fetch(`https://${match.server.toLowerCase()}.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => res.status(200).send(e))
-    // ))).then(data => { //once we get the array of resolved matchData we put it back to matchList and send it to client
-    //     for(let i = 0; i < matchListFirstTwelveOrLess.length; i++){
-    //         matchList[i].matchData = data[i].participants.find(participant => participant.championId == championKey);
-    //     }
-    //     res.status(200).send(matchList)
-    // }).catch(e => console.log(e));
-    
     res.status(200).send(matchList)
 });
 
@@ -132,7 +141,7 @@ var getMatchListFromAccountIDEUW1Job = new CronJob('53 23 * * *', function() {
     //EUW1
     const accountIDsEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountideuw1.json')));
     Promise.all(accountIDsEUW1.map(accountIDEUW1 => (
-        fetch(`https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountIDEUW1.accountID}?endIndex=50&beginIndex=0&api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => {return ({summonerName:accountIDEUW1.summonerName, matches:data.matches})}).catch(e => console.log(e))//last .then makes it so that we only take accountId from the response. we could also take id, puuid, name, profileIconId, revisionDate, summonerLevel
+        fetch(`https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountIDEUW1.accountID}?queue=420&endIndex=50&beginIndex=0&api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => {return ({summonerName:accountIDEUW1.summonerName, matches:data.matches})}).catch(e => console.log(e))//last .then makes it so that we only take accountId from the response. we could also take id, puuid, name, profileIconId, revisionDate, summonerLevel
     ))).then(data => JSON.stringify(data)).then(stringdata => {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlisteuw1.json'), stringdata); 
     }).catch(e => console.log(e));
@@ -142,7 +151,7 @@ var getMatchListFromAccountIDKRJob = new CronJob('54 23 * * *', function() {
     //KR
     const accountIDsKR = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidkr.json')));
     Promise.all(accountIDsKR.map(accountIDKR => (
-        fetch(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountIDKR.accountID}?endIndex=50&beginIndex=0&api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => {return ({summonerName:accountIDKR.summonerName, matches:data.matches})}).catch(e => console.log(e))//last .then makes it so that we only take accountId from the response. we could also take id, puuid, name, profileIconId, revisionDate, summonerLevel
+        fetch(`https://kr.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountIDKR.accountID}?queue=420&endIndex=50&beginIndex=0&api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => {return ({summonerName:accountIDKR.summonerName, matches:data.matches})}).catch(e => console.log(e))//last .then makes it so that we only take accountId from the response. we could also take id, puuid, name, profileIconId, revisionDate, summonerLevel
     ))).then(data => JSON.stringify(data)).then(stringdata => {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistkr.json'), stringdata); 
     }).catch(e => console.log(e));
@@ -152,7 +161,7 @@ var getMatchListFromAccountIDNA1Job = new CronJob('55 23 * * *', function() {
     //NA1
     const accountIDsNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidna1.json')));
     Promise.all(accountIDsNA1.map(accountIDNA1 => (
-        fetch(`https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountIDNA1.accountID}?endIndex=50&beginIndex=0&api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => {return ({summonerName:accountIDNA1.summonerName, matches:data.matches})}).catch(e => console.log(e))//last .then makes it so that we only take accountId from the response. we could also take id, puuid, name, profileIconId, revisionDate, summonerLevel
+        fetch(`https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountIDNA1.accountID}?queue=420&endIndex=50&beginIndex=0&api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => {return ({summonerName:accountIDNA1.summonerName, matches:data.matches})}).catch(e => console.log(e))//last .then makes it so that we only take accountId from the response. we could also take id, puuid, name, profileIconId, revisionDate, summonerLevel
     ))).then(data => JSON.stringify(data)).then(stringdata => {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistna1.json'), stringdata); 
     }).catch(e => console.log(e));
