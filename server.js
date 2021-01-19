@@ -6,9 +6,11 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fetch = require('node-fetch');
 var CronJob = require('cron').CronJob;
+const championBuckets = require('./data/misc/championBuckets');
 //are you gonna use compression??
 //are you gonna use express-sslify?
 require('dotenv').config();
+
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -36,12 +38,63 @@ app.get('/test1', function(req, res){
     }
     //console.log(matchListForEachChampionNA1);
     matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,5);
+    let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
     Promise.all(matchListForEachChampionNA1.map(function(champion){
         return Promise.all(champion.map(function(match){
           return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json());
         }));
     })).then(function(data) {
-        console.log(data);
+        //console.log(data);
+        for(let i = 0; i<data.length; i++){
+            if(data[i]){
+                for(let j = 0; j<data[i].length; j++){
+                    let ourPlayer = data[i][j].participants.find(participant => participant.championId == i);//finds participant with the correct championId
+                    //finding player position
+                    let playerPosition = '';
+                    let indexInPositionOrder;
+                    if(ourPlayer.spell1Id == 11 || ourPlayer.spell2Id == 11) {
+                        playerPosition = 'Jungle';
+                        indexInPositionOrder = 4;
+                    } else {
+                        for(let h = 0; h<4; h++){
+                            if(championBuckets[h].includes(i)){
+                                playerPosition = positionOrder[h];
+                                indexInPositionOrder = h;
+                                break;
+                            }
+                        }
+                    }
+                    //finding versus
+                    let versus; //participant object for the versus
+                    let enemyTeam; // array of enemy participnts objects
+                    if(ourPlayer.participantId < 6) {
+                        enemyTeam = data[i][j].participants.slice(5,10);
+                    } else {
+                        enemyTeam = data[i][j].participants.slice(0,5);
+                    }
+                    if(playerPosition == 'Jungle'){
+                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id));
+                    } else {
+                        versus = enemyTeam.find(participant => {
+                            let enemyPosition = '';
+                            for(let h = 0; h<4; h++){
+                                if(championBuckets[h].includes(participant.championId)){
+                                    enemyPosition = positionOrder[h];
+                                    indexInPositionOrder = h;
+                                    break;
+                                }
+                            }
+                            return (enemyPosition == playerPosition);
+                        })
+                    }
+                    //putting versus and matchData into matchListForEachChampionNA1
+                    matchListForEachChampionNA1[i][j].matchData = ourPlayer;
+                    matchListForEachChampionNA1[i][j].versus = versus.championId;
+                }
+            }
+        }
+        console.log(matchListForEachChampionNA1);
+
     });
 });
 
@@ -70,6 +123,9 @@ app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "g
 app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
+
+
+
 
 //getting challenger lists
 var getChallengerListEUW1Job = new CronJob('47 23 * * 0', function() {
