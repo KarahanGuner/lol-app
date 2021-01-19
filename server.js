@@ -41,7 +41,7 @@ app.get('/test1', function(req, res){
     let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
     Promise.all(matchListForEachChampionNA1.map(function(champion){
         return Promise.all(champion.map(function(match){
-          return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json());
+          return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
         }));
     })).then(function(data) {
         //console.log(data);
@@ -87,6 +87,9 @@ app.get('/test1', function(req, res){
                             return (enemyPosition == playerPosition);
                         })
                     }
+                    if(!versus){//if it cant find the versus just pick a random one
+                        versus = enemyTeam[2];
+                    }
                     //putting versus and matchData into matchListForEachChampionNA1
                     matchListForEachChampionNA1[i][j].matchData = ourPlayer;
                     matchListForEachChampionNA1[i][j].versus = versus.championId;
@@ -95,7 +98,7 @@ app.get('/test1', function(req, res){
         }
         console.log(matchListForEachChampionNA1);
 
-    });
+    }).catch(e => console.log(e));
 });
 
 app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
