@@ -23,98 +23,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/test1', function(req, res){
-    const matchListNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistna1.json')));
-    var matchListForEachChampionNA1 = []; //index of this array == key value of the chamipon it represents
-    //populating matchListForEachChampionNA1
-    for(let i = 0; i < amountOfPlayersFromEachServer; i++) {
-        let playerName = matchListNA1[i].summonerName;
-        for(let j = 0; j < 50; j++){
-            if(!(matchListForEachChampionNA1[matchListNA1[i].matches[j].champion])){
-                matchListForEachChampionNA1[matchListNA1[i].matches[j].champion] = [];
-            };
-            matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId, server: "NA1"});
-             
-        }
-    }
-    //console.log(matchListForEachChampionNA1);
-    matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,5);
-    let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
-    Promise.all(matchListForEachChampionNA1.map(function(champion){
-        return Promise.all(champion.map(function(match){
-            if(match.gameId){
-                return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
-            } else {
-                return undefined;
-            }
-          
-        }));
-    })).then(function(data) {
-        //console.log(data);
-        for(let i = 0; i<data.length; i++){
-            if(data[i]){
-                for(let j = 0; j<data[i].length; j++){
-                    console.log('this is data[i][j] + i= ' + JSON.stringify(data[i][j]) + i);
-                    let ourPlayer = data[i][j].participants.find(participant => participant.championId == i);//finds participant with the correct championId
-                    //finding player position
-                    let playerPosition = '';
-                    let indexInPositionOrder;
-                    if(ourPlayer.spell1Id == 11 || ourPlayer.spell2Id == 11) {
-                        playerPosition = 'Jungle';
-                        indexInPositionOrder = 4;
-                    } else {
-                        for(let h = 0; h<4; h++){
-                            if(championBuckets[h].includes(i)){
-                                playerPosition = positionOrder[h];
-                                indexInPositionOrder = h;
-                                break;
-                            }
-                        }
-                    }
-                    //finding versus
-                    let versus; //participant object for the versus
-                    let enemyTeam; // array of enemy participnts objects
-                    if(ourPlayer.participantId < 6) {
-                        enemyTeam = data[i][j].participants.slice(5,10);
-                    } else {
-                        enemyTeam = data[i][j].participants.slice(0,5);
-                    }
-                    if(playerPosition == 'Jungle'){
-                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id));
-                    } else {
-                        versus = enemyTeam.find(participant => {
-                            let enemyPosition = '';
-                            for(let h = 0; h<4; h++){
-                                if(championBuckets[h].includes(participant.championId)){
-                                    enemyPosition = positionOrder[h];
-                                    indexInPositionOrder = h;
-                                    break;
-                                }
-                            }
-                            return (enemyPosition == playerPosition);
-                        })
-                    }
-                    if(!versus){//if it cant find the versus just pick a random one
-                        versus = enemyTeam[2];
-                    }
-                    //putting versus and matchData into matchListForEachChampionNA1
-                    matchListForEachChampionNA1[i][j].matchData = ourPlayer;
-                    matchListForEachChampionNA1[i][j].versus = versus.championId;
-                }
-            }
-        }
-        console.log(matchListForEachChampionNA1);
-        for(let i = 0; i < matchListForEachChampionNA1.length; i++){
-            if(matchListForEachChampionNA1[i]){
-                fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlistna1.json'), JSON.stringify(matchListForEachChampionNA1[i]), err => {
-                    if(err) {
-                      console.log(err);
-                    } else {
-                      console.log('The file was saved!');
-                    }
-                });
-            }
-        }
-    }).catch(e => console.log(e));
+    
 });
 
 app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
@@ -261,18 +170,81 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function(
              
         }
     }
-    //putting data from matchListForEachChampionEUW1 to json files
-    for(let i = 0; i < matchListForEachChampionEUW1.length; i++){
-        if(matchListForEachChampionEUW1[i]){
-            fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlisteuw1.json'), JSON.stringify(matchListForEachChampionEUW1[i]), err => {
-                if(err) {
-                  console.log(err);
-                } else {
-                  console.log('The file was saved!');
+    matchListForEachChampionEUW1 = matchListForEachChampionEUW1.slice(0,3);
+    let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
+    Promise.all(matchListForEachChampionEUW1.map(function(champion){
+        return Promise.all(champion.map(function(match){
+            if(match.gameId){
+                return fetch(`https://euw1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
+            } else {
+                return undefined;
+            }
+          
+        }));
+    })).then(function(data) {
+        for(let i = 0; i<data.length; i++){
+            if(data[i]){
+                for(let j = 0; j<data[i].length; j++){
+                    let ourPlayer = data[i][j].participants.find(participant => participant.championId == i);//finds participant with the correct championId
+                    //finding player position
+                    let playerPosition = '';
+                    let indexInPositionOrder;
+                    if(ourPlayer.spell1Id == 11 || ourPlayer.spell2Id == 11) {
+                        playerPosition = 'Jungle';
+                        indexInPositionOrder = 4;
+                    } else {
+                        for(let h = 0; h<4; h++){
+                            if(championBuckets[h].includes(i)){
+                                playerPosition = positionOrder[h];
+                                indexInPositionOrder = h;
+                                break;
+                            }
+                        }
+                    }
+                    //finding versus
+                    let versus; //participant object for the versus
+                    let enemyTeam; // array of enemy participnts objects
+                    if(ourPlayer.participantId < 6) {
+                        enemyTeam = data[i][j].participants.slice(5,10);
+                    } else {
+                        enemyTeam = data[i][j].participants.slice(0,5);
+                    }
+                    if(playerPosition == 'Jungle'){
+                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id));
+                    } else {
+                        versus = enemyTeam.find(participant => {
+                            let enemyPosition = '';
+                            for(let h = 0; h<4; h++){
+                                if(championBuckets[h].includes(participant.championId)){
+                                    enemyPosition = positionOrder[h];
+                                    indexInPositionOrder = h;
+                                    break;
+                                }
+                            }
+                            return (enemyPosition == playerPosition);
+                        })
+                    }
+                    if(!versus){//if it cant find the versus just pick a random one
+                        versus = enemyTeam[2];
+                    }
+                    //putting versus and matchData into matchListForEachChampionEUW1
+                    matchListForEachChampionEUW1[i][j].matchData = ourPlayer;
+                    matchListForEachChampionEUW1[i][j].versus = versus.championId;
                 }
-            });
+            }
         }
-    }
+        for(let i = 0; i < matchListForEachChampionEUW1.length; i++){
+            if(matchListForEachChampionEUW1[i]){
+                fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlisteuw1.json'), JSON.stringify(matchListForEachChampionEUW1[i]), err => {
+                    if(err) {
+                      console.log(err);
+                    } else {
+                      console.log('The file was saved!');
+                    }
+                });
+            }
+        }
+    }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
 var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() {
     console.log('Creating match lists for each champion for KR');
@@ -289,18 +261,81 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() 
              
         }
     }
-    //putting data from matchListForEachChampionKR to json files
-    for(let i = 0; i < matchListForEachChampionKR.length; i++){
-        if(matchListForEachChampionKR[i]){
-            fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlistkr.json'), JSON.stringify(matchListForEachChampionKR[i]), err => {
-                if(err) {
-                  console.log(err);
-                } else {
-                  console.log('The file was saved!');
+    matchListForEachChampionKR = matchListForEachChampionKR.slice(0,3);
+    let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
+    Promise.all(matchListForEachChampionKR.map(function(champion){
+        return Promise.all(champion.map(function(match){
+            if(match.gameId){
+                return fetch(`https://kr.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
+            } else {
+                return undefined;
+            }
+          
+        }));
+    })).then(function(data) {
+        for(let i = 0; i<data.length; i++){
+            if(data[i]){
+                for(let j = 0; j<data[i].length; j++){
+                    let ourPlayer = data[i][j].participants.find(participant => participant.championId == i);//finds participant with the correct championId
+                    //finding player position
+                    let playerPosition = '';
+                    let indexInPositionOrder;
+                    if(ourPlayer.spell1Id == 11 || ourPlayer.spell2Id == 11) {
+                        playerPosition = 'Jungle';
+                        indexInPositionOrder = 4;
+                    } else {
+                        for(let h = 0; h<4; h++){
+                            if(championBuckets[h].includes(i)){
+                                playerPosition = positionOrder[h];
+                                indexInPositionOrder = h;
+                                break;
+                            }
+                        }
+                    }
+                    //finding versus
+                    let versus; //participant object for the versus
+                    let enemyTeam; // array of enemy participnts objects
+                    if(ourPlayer.participantId < 6) {
+                        enemyTeam = data[i][j].participants.slice(5,10);
+                    } else {
+                        enemyTeam = data[i][j].participants.slice(0,5);
+                    }
+                    if(playerPosition == 'Jungle'){
+                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id));
+                    } else {
+                        versus = enemyTeam.find(participant => {
+                            let enemyPosition = '';
+                            for(let h = 0; h<4; h++){
+                                if(championBuckets[h].includes(participant.championId)){
+                                    enemyPosition = positionOrder[h];
+                                    indexInPositionOrder = h;
+                                    break;
+                                }
+                            }
+                            return (enemyPosition == playerPosition);
+                        })
+                    }
+                    if(!versus){//if it cant find the versus just pick a random one
+                        versus = enemyTeam[2];
+                    }
+                    //putting versus and matchData into matchListForEachChampionKR
+                    matchListForEachChampionKR[i][j].matchData = ourPlayer;
+                    matchListForEachChampionKR[i][j].versus = versus.championId;
                 }
-            });
+            }
         }
-    }
+        for(let i = 0; i < matchListForEachChampionKR.length; i++){
+            if(matchListForEachChampionKR[i]){
+                fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlistkr.json'), JSON.stringify(matchListForEachChampionKR[i]), err => {
+                    if(err) {
+                      console.log(err);
+                    } else {
+                      console.log('The file was saved!');
+                    }
+                });
+            }
+        }
+    }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
 var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function() {
     console.log('Creating match lists for each champion for NA1');
@@ -317,18 +352,81 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function()
              
         }
     }
-    //putting data from matchListForEachChampionNA1 to json files
-    for(let i = 0; i < matchListForEachChampionNA1.length; i++){
-        if(matchListForEachChampionNA1[i]){
-            fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlistna1.json'), JSON.stringify(matchListForEachChampionNA1[i]), err => {
-                if(err) {
-                  console.log(err);
-                } else {
-                  console.log('The file was saved!');
+    matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,5);
+    let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
+    Promise.all(matchListForEachChampionNA1.map(function(champion){
+        return Promise.all(champion.map(function(match){
+            if(match.gameId){
+                return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
+            } else {
+                return undefined;
+            }
+          
+        }));
+    })).then(function(data) {
+        for(let i = 0; i<data.length; i++){
+            if(data[i]){
+                for(let j = 0; j<data[i].length; j++){
+                    let ourPlayer = data[i][j].participants.find(participant => participant.championId == i);//finds participant with the correct championId
+                    //finding player position
+                    let playerPosition = '';
+                    let indexInPositionOrder;
+                    if(ourPlayer.spell1Id == 11 || ourPlayer.spell2Id == 11) {
+                        playerPosition = 'Jungle';
+                        indexInPositionOrder = 4;
+                    } else {
+                        for(let h = 0; h<4; h++){
+                            if(championBuckets[h].includes(i)){
+                                playerPosition = positionOrder[h];
+                                indexInPositionOrder = h;
+                                break;
+                            }
+                        }
+                    }
+                    //finding versus
+                    let versus; //participant object for the versus
+                    let enemyTeam; // array of enemy participnts objects
+                    if(ourPlayer.participantId < 6) {
+                        enemyTeam = data[i][j].participants.slice(5,10);
+                    } else {
+                        enemyTeam = data[i][j].participants.slice(0,5);
+                    }
+                    if(playerPosition == 'Jungle'){
+                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id));
+                    } else {
+                        versus = enemyTeam.find(participant => {
+                            let enemyPosition = '';
+                            for(let h = 0; h<4; h++){
+                                if(championBuckets[h].includes(participant.championId)){
+                                    enemyPosition = positionOrder[h];
+                                    indexInPositionOrder = h;
+                                    break;
+                                }
+                            }
+                            return (enemyPosition == playerPosition);
+                        })
+                    }
+                    if(!versus){//if it cant find the versus just pick a random one
+                        versus = enemyTeam[2];
+                    }
+                    //putting versus and matchData into matchListForEachChampionNA1
+                    matchListForEachChampionNA1[i][j].matchData = ourPlayer;
+                    matchListForEachChampionNA1[i][j].versus = versus.championId;
                 }
-            });
+            }
         }
-    }
+        for(let i = 0; i < matchListForEachChampionNA1.length; i++){
+            if(matchListForEachChampionNA1[i]){
+                fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlistna1.json'), JSON.stringify(matchListForEachChampionNA1[i]), err => {
+                    if(err) {
+                      console.log(err);
+                    } else {
+                      console.log('The file was saved!');
+                    }
+                });
+            }
+        }
+    }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
 createMatchListForEachChampionEUW1Job.start();
 createMatchListForEachChampionKRJob.start();
