@@ -41,13 +41,19 @@ app.get('/test1', function(req, res){
     let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
     Promise.all(matchListForEachChampionNA1.map(function(champion){
         return Promise.all(champion.map(function(match){
-          return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
+            if(match.gameId){
+                return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
+            } else {
+                return undefined;
+            }
+          
         }));
     })).then(function(data) {
         //console.log(data);
         for(let i = 0; i<data.length; i++){
             if(data[i]){
                 for(let j = 0; j<data[i].length; j++){
+                    console.log('this is data[i][j] + i= ' + JSON.stringify(data[i][j]) + i);
                     let ourPlayer = data[i][j].participants.find(participant => participant.championId == i);//finds participant with the correct championId
                     //finding player position
                     let playerPosition = '';
@@ -97,7 +103,17 @@ app.get('/test1', function(req, res){
             }
         }
         console.log(matchListForEachChampionNA1);
-
+        for(let i = 0; i < matchListForEachChampionNA1.length; i++){
+            if(matchListForEachChampionNA1[i]){
+                fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlistna1.json'), JSON.stringify(matchListForEachChampionNA1[i]), err => {
+                    if(err) {
+                      console.log(err);
+                    } else {
+                      console.log('The file was saved!');
+                    }
+                });
+            }
+        }
     }).catch(e => console.log(e));
 });
 
