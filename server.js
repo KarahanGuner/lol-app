@@ -23,7 +23,130 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/test1', function(req, res){
-    
+    const itemInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'item.json')));
+    const runeInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'runesReforged.json')));
+    const summonerSpellsInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'summoner.json')));
+    const matchListNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistna1.json')));
+    var matchListForEachChampionNA1 = []; //index of this array == key value of the chamipon it represents
+    //populating matchListForEachChampionNA1
+    for(let i = 0; i < amountOfPlayersFromEachServer; i++) {
+        let playerName = matchListNA1[i].summonerName;
+        for(let j = 0; j < 50; j++){
+            if(!(matchListForEachChampionNA1[matchListNA1[i].matches[j].champion])){
+                matchListForEachChampionNA1[matchListNA1[i].matches[j].champion] = [];
+            };
+            matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId, server: "NA1"});
+             
+        }
+    }
+    matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,5);
+    let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
+    Promise.all(matchListForEachChampionNA1.map(function(champion){
+        return Promise.all(champion.map(function(match){
+            if(match.gameId){
+                return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
+            } else {
+                return undefined;
+            }
+          
+        }));
+    })).then(function(data) {
+        for(let i = 0; i<data.length; i++){
+            if(data[i]){
+                for(let j = 0; j<data[i].length; j++){
+                    let ourPlayer = data[i][j].participants.find(participant => participant.championId == i);//finds participant with the correct championId
+                    //finding player position
+                    let playerPosition = '';
+                    let indexInPositionOrder;
+                    if(ourPlayer.spell1Id == 11 || ourPlayer.spell2Id == 11) {
+                        playerPosition = 'Jungle';
+                        indexInPositionOrder = 4;
+                    } else {
+                        for(let h = 0; h<4; h++){
+                            if(championBuckets[h].includes(i)){
+                                playerPosition = positionOrder[h];
+                                indexInPositionOrder = h;
+                                break;
+                            }
+                        }
+                    }
+                    //finding versus
+                    let versus; //participant object for the versus
+                    let enemyTeam; // array of enemy participnts objects
+                    if(ourPlayer.participantId < 6) {
+                        enemyTeam = data[i][j].participants.slice(5,10);
+                    } else {
+                        enemyTeam = data[i][j].participants.slice(0,5);
+                    }
+                    if(playerPosition == 'Jungle'){
+                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id));
+                    } else {
+                        versus = enemyTeam.find(participant => {
+                            let enemyPosition = '';
+                            for(let h = 0; h<4; h++){
+                                if(championBuckets[h].includes(participant.championId)){
+                                    enemyPosition = positionOrder[h];
+                                    indexInPositionOrder = h;
+                                    break;
+                                }
+                            }
+                            return (enemyPosition == playerPosition);
+                        })
+                    }
+                    if(!versus){//if it cant find the versus just pick a random one
+                        versus = enemyTeam[2];
+                    }
+                    //putting versus and matchData into matchListForEachChampionNA1
+                    matchListForEachChampionNA1[i][j].matchData = ourPlayer;
+                    matchListForEachChampionNA1[i][j].versus = versus.championId;
+                }
+            }
+        }
+        for(let i = 0; i < matchListForEachChampionNA1.length; i++){
+            if(matchListForEachChampionNA1[i]){
+                for(let j = 0; j<matchListForEachChampionNA1[i].length; j++){
+                    //getting info for items and pushing them
+                    for(let h = 0; h< 7; h++){
+                        matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`] = 
+                            {
+                                name: itemInfo.data.matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`].name,
+                                description: itemInfo.data.matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`].description,
+                                image: itemInfo.data.matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`].image.full,
+                                gold: itemInfo.data.matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`].gold.base
+                            }
+                    }
+                    //getting info for runes
+                    matchListForEachChampionNA1[i][j].matchData.stats.perk0 = runeInfo.find(runeTree => runeTree.id == matchListForEachChampionNA1[i][j].matchData.stats.perkPrimaryStyle).slots[0].runes.find(keystone => keystone.id == matchListForEachChampionNA1[i][j].matchData.stats.perk0);
+                    matchListForEachChampionNA1[i][j].matchData.stats.perkSubStyle = runeInfo.find(runeTree => runeTree == matchListForEachChampionNA1[i][j].matchData.stats.perkSubStyle).icon;
+                    //getting info for summoner spells
+                    for (const summonerSpell in summonerSpellsInfo.data) {
+                        if(summonerSpell.key == matchListForEachChampionNA1[i][j].matchData.spell1Id){
+                            matchListForEachChampionNA1[i][j].matchData.spell1Id = summonerSpell.image.full;
+                            break;
+                        }
+                    }
+                    for (const summonerSpell in summonerSpellsInfo.data) {
+                        if(summonerSpell.key == matchListForEachChampionNA1[i][j].matchData.spell2Id){
+                            matchListForEachChampionNA1[i][j].matchData.spell2Id = summonerSpell.image.full;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
+        for(let i = 0; i < matchListForEachChampionNA1.length; i++){
+            if(matchListForEachChampionNA1[i]){
+                fse.outputFile(path.join(__dirname, `data/champions/${i}`, 'matchlistna1.json'), JSON.stringify(matchListForEachChampionNA1[i]), err => {
+                    if(err) {
+                      console.log(err);
+                    } else {
+                      console.log('The file was saved!');
+                    }
+                });
+            }
+        }
+    }).catch(e => console.log(e));
 });
 
 app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
