@@ -107,17 +107,21 @@ app.get('/test1', function(req, res){
                 for(let j = 0; j<matchListForEachChampionNA1[i].length; j++){
                     //getting info for items and pushing them
                     for(let h = 0; h< 7; h++){
-                        matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`] = 
+                        let itemId = matchListForEachChampionNA1[i][j].matchData.stats[`item${h}`];
+                        console.log('this is itemID = ' + itemId);
+                        if(itemId){
+                            matchListForEachChampionNA1[i][j].matchData.stats[`item${h}`] = 
                             {
-                                name: itemInfo.data.matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`].name,
-                                description: itemInfo.data.matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`].description,
-                                image: itemInfo.data.matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`].image.full,
-                                gold: itemInfo.data.matchListForEachChampionNA1[i][j].matchData.stats[`item${i}`].gold.base
+                                name: itemInfo.data[`${itemId}`].name,
+                                description: itemInfo.data[`${itemId}`].description,
+                                image: itemInfo.data[`${itemId}`].image.full,
+                                gold: itemInfo.data[`${itemId}`].gold.base
                             }
+                        }
                     }
                     //getting info for runes
                     matchListForEachChampionNA1[i][j].matchData.stats.perk0 = runeInfo.find(runeTree => runeTree.id == matchListForEachChampionNA1[i][j].matchData.stats.perkPrimaryStyle).slots[0].runes.find(keystone => keystone.id == matchListForEachChampionNA1[i][j].matchData.stats.perk0);
-                    matchListForEachChampionNA1[i][j].matchData.stats.perkSubStyle = runeInfo.find(runeTree => runeTree == matchListForEachChampionNA1[i][j].matchData.stats.perkSubStyle).icon;
+                    matchListForEachChampionNA1[i][j].matchData.stats.perkSubStyle = runeInfo.find(runeTree => runeTree.id == matchListForEachChampionNA1[i][j].matchData.stats.perkSubStyle).icon;
                     //getting info for summoner spells
                     for (const summonerSpell in summonerSpellsInfo.data) {
                         if(summonerSpell.key == matchListForEachChampionNA1[i][j].matchData.spell1Id){
