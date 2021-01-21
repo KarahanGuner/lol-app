@@ -24,8 +24,7 @@ app.use(cors());
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/test2', function(req, res){
-    const accountIDNA1 = {accountID: 'No3exnxWyes_zlV7eb_brlXptos5op80m6bTDQW29OShpQ'}
-    fetch(`https://na1.api.riotgames.com/lol/match/v4/matchlists/by-account/${accountIDNA1.accountID}?queue=420&beginTime=${beginTime}&endIndex=50&beginIndex=0&api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => console.log(data));
+
 });
 
 
@@ -39,12 +38,13 @@ app.get('/test1', function(req, res){
     //populating matchListForEachChampionNA1
     for(let i = 0; i < amountOfPlayersFromEachServer; i++) {
         let playerName = matchListNA1[i].summonerName;
-        for(let j = 0; j < 50; j++){
-            if(!(matchListForEachChampionNA1[matchListNA1[i].matches[j].champion])){
-                matchListForEachChampionNA1[matchListNA1[i].matches[j].champion] = [];
-            };
-            matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId, server: "NA1"});
-             
+        if(matchListNA1[i].matches){
+            for(let j = 0; j < matchListNA1[i].matches.length; j++){
+                if(!(matchListForEachChampionNA1[matchListNA1[i].matches[j].champion])){
+                    matchListForEachChampionNA1[matchListNA1[i].matches[j].champion] = [];
+                };
+                matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId, server: "NA1"});
+            }
         }
     }
     matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,5);
@@ -59,6 +59,7 @@ app.get('/test1', function(req, res){
           
         }));
     })).then(function(data) {
+        console.log('this is the data = ' + data);
         for(let i = 0; i<data.length; i++){
             if(data[i]){
                 for(let j = 0; j<data[i].length; j++){
