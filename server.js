@@ -28,7 +28,7 @@ app.get('/test2', function(req, res){
 });
 
 app.get('/test1', function(req, res){
-    
+
 });
 
 app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
@@ -274,6 +274,9 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function(
                             break;
                         }
                     }
+                    //getting rid of unnecessary info this operation takes approxiamtely 3ms per match and saves 2kb of memory per match
+                    ["largestKillingSpree", "largestMultiKill", "killingSprees", "longestTimeSpentLiving", "doubleKills", "tripleKills", "quadraKills", "pentaKills", "unrealKills", "totalDamageDealt", "magicDamageDealt", "physicalDamageDealt", "trueDamageDealt", "largestCriticalStrike", "totalDamageDealtToChampions", "magicDamageDealtToChampions", "physicalDamageDealtToChampions", "trueDamageDealtToChampions", "totalHeal", "totalUnitsHealed", "damageSelfMitigated", "damageDealtToObjectives", "damageDealtToTurrets", "timeCCingOthers", "totalDamageTaken", "magicalDamageTaken", "physicalDamageTaken", "trueDamageTaken", "turretKills", "inhibitorKills", "neutralMinionsKilledTeamJungle", "neutralMinionsKilledEnemyJungle", "totalTimeCrowdControlDealt", "visionWardsBoughtInGame", "sightWardsBoughtInGame", "wardsPlaced", "wardsKilled", "firstBloodKill", "firstBloodAssist", "firstTowerKill", "firstTowerAssist", "firstInhibitorKill", "firstInhibitorAssist", "combatPlayerScore", "objectivePlayerScore", "totalPlayerScore", "totalScoreRank", "playerScore0", "playerScore1", "playerScore2", "playerScore3", "playerScore4", "playerScore5", "playerScore6", "playerScore7", "playerScore8", "playerScore9", "perk0Var1", "perk0Var2", "perk0Var3", "perk1", "perk1Var1", "perk1Var2", "perk1Var3", "perk2", "perk2Var1", "perk2Var2", "perk2Var3", "perk3", "perk3Var1", "perk3Var2", "perk3Var3", "perk4", "perk4Var1", "perk4Var2", "perk4Var3", "perk5", "perk5Var1", "perk5Var2", "perk5Var3", "statPerk0", "statPerk1", "statPerk2"].forEach(el => {delete matchListForEachChampionEUW1[i][j].matchData.stats[el];});
+                    delete matchListForEachChampionEUW1[i][j].matchData.timeline;
                 }
             }
         }
@@ -405,6 +408,9 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() 
                             break;
                         }
                     }
+                    //getting rid of unnecessary info this operation takes approxiamtely 3ms per match and saves 2kb of memory per match
+                    ["largestKillingSpree", "largestMultiKill", "killingSprees", "longestTimeSpentLiving", "doubleKills", "tripleKills", "quadraKills", "pentaKills", "unrealKills", "totalDamageDealt", "magicDamageDealt", "physicalDamageDealt", "trueDamageDealt", "largestCriticalStrike", "totalDamageDealtToChampions", "magicDamageDealtToChampions", "physicalDamageDealtToChampions", "trueDamageDealtToChampions", "totalHeal", "totalUnitsHealed", "damageSelfMitigated", "damageDealtToObjectives", "damageDealtToTurrets", "timeCCingOthers", "totalDamageTaken", "magicalDamageTaken", "physicalDamageTaken", "trueDamageTaken", "turretKills", "inhibitorKills", "neutralMinionsKilledTeamJungle", "neutralMinionsKilledEnemyJungle", "totalTimeCrowdControlDealt", "visionWardsBoughtInGame", "sightWardsBoughtInGame", "wardsPlaced", "wardsKilled", "firstBloodKill", "firstBloodAssist", "firstTowerKill", "firstTowerAssist", "firstInhibitorKill", "firstInhibitorAssist", "combatPlayerScore", "objectivePlayerScore", "totalPlayerScore", "totalScoreRank", "playerScore0", "playerScore1", "playerScore2", "playerScore3", "playerScore4", "playerScore5", "playerScore6", "playerScore7", "playerScore8", "playerScore9", "perk0Var1", "perk0Var2", "perk0Var3", "perk1", "perk1Var1", "perk1Var2", "perk1Var3", "perk2", "perk2Var1", "perk2Var2", "perk2Var3", "perk3", "perk3Var1", "perk3Var2", "perk3Var3", "perk4", "perk4Var1", "perk4Var2", "perk4Var3", "perk5", "perk5Var1", "perk5Var2", "perk5Var3", "statPerk0", "statPerk1", "statPerk2"].forEach(el => {delete matchListForEachChampionKR[i][j].matchData.stats[el];});
+                    delete matchListForEachChampionKR[i][j].matchData.timeline;
                 }
             }
         }
@@ -535,6 +541,9 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function()
                             break;
                         }
                     }
+                    //getting rid of unnecessary info this operation takes approxiamtely 3ms per match and saves 2kb of memory per match
+                    ["largestKillingSpree", "largestMultiKill", "killingSprees", "longestTimeSpentLiving", "doubleKills", "tripleKills", "quadraKills", "pentaKills", "unrealKills", "totalDamageDealt", "magicDamageDealt", "physicalDamageDealt", "trueDamageDealt", "largestCriticalStrike", "totalDamageDealtToChampions", "magicDamageDealtToChampions", "physicalDamageDealtToChampions", "trueDamageDealtToChampions", "totalHeal", "totalUnitsHealed", "damageSelfMitigated", "damageDealtToObjectives", "damageDealtToTurrets", "timeCCingOthers", "totalDamageTaken", "magicalDamageTaken", "physicalDamageTaken", "trueDamageTaken", "turretKills", "inhibitorKills", "neutralMinionsKilledTeamJungle", "neutralMinionsKilledEnemyJungle", "totalTimeCrowdControlDealt", "visionWardsBoughtInGame", "sightWardsBoughtInGame", "wardsPlaced", "wardsKilled", "firstBloodKill", "firstBloodAssist", "firstTowerKill", "firstTowerAssist", "firstInhibitorKill", "firstInhibitorAssist", "combatPlayerScore", "objectivePlayerScore", "totalPlayerScore", "totalScoreRank", "playerScore0", "playerScore1", "playerScore2", "playerScore3", "playerScore4", "playerScore5", "playerScore6", "playerScore7", "playerScore8", "playerScore9", "perk0Var1", "perk0Var2", "perk0Var3", "perk1", "perk1Var1", "perk1Var2", "perk1Var3", "perk2", "perk2Var1", "perk2Var2", "perk2Var3", "perk3", "perk3Var1", "perk3Var2", "perk3Var3", "perk4", "perk4Var1", "perk4Var2", "perk4Var3", "perk5", "perk5Var1", "perk5Var2", "perk5Var3", "statPerk0", "statPerk1", "statPerk2"].forEach(el => {delete matchListForEachChampionNA1[i][j].matchData.stats[el];});
+                    delete matchListForEachChampionNA1[i][j].matchData.timeline;
                 }
             }
         }
