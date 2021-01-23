@@ -28,7 +28,7 @@ app.get('/test2', function(req, res){
 });
 
 app.get('/test1', function(req, res){
-
+   
 });
 
 app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
