@@ -28,8 +28,8 @@ function ResultRow() {
       <div className="score-container">
         2/53/53
       </div>
-      <div className="lane-container">
-        Jungle
+      <div className="level-container">
+        15
       </div>
       <div className="items-container">
         <img className="item-icon" src="https://ddragon.leagueoflegends.com/cdn/10.25.1/img/item/3089.png" alt="item"/>
@@ -41,7 +41,7 @@ function ResultRow() {
         <img className="item-icon" src="https://ddragon.leagueoflegends.com/cdn/10.25.1/img/item/3089.png" alt="item"/>
       </div>
       <div className="gold-container">
-        12,243
+        12243
       </div>
       <div className="keystone-container">
         <img className="row-icon" src="https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Domination/Electrocute/Electrocute.png" alt="keystone"/>

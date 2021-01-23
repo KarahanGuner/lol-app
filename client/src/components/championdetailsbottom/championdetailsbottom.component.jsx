@@ -17,8 +17,8 @@ function ChampionDetailsBottom() {
           <div className="score-header">
             Score
           </div>
-          <div className="lane-header">
-            Lane
+          <div className="level-header">
+            Level
           </div>
           <div className="finalbuild-header">
             Final&nbsp;Build

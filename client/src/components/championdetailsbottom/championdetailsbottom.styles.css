@@ -20,27 +20,27 @@
 }
 
 .challenger-header {
-    margin-left: 70px;
+    margin-left: 95px;
 }
 
 .vs-header {
-    margin-left: 178px;
+    margin-left: 125px;
 }
 
 .score-header {
     margin-left: 46px;
 }
 
-.lane-header {
+.level-header {
     margin-left: 46px;
 }
 
 .finalbuild-header {
-    margin-left: 114px;
+    margin-left: 110px;
 }
 
 .gold-header {
-    margin-left: 121px;
+    margin-left: 125px;
 }
 
 @media (max-width: 760px) {

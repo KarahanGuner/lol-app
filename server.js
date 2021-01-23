@@ -33,19 +33,28 @@ app.get('/test1', function(req, res){
 
 app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
     const championKey = req.params.championkey;
-    const matchListEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlisteuw1.json')));
-    const matchListKR = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistkr.json')));
-    const matchListNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistna1.json')));
+    var matchListEUW1;
+    var matchListKR;
+    var matchListNA1;
+    if(fs.existsSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlisteuw1.json'))){
+        matchListEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlisteuw1.json')));
+    }
+    if(fs.existsSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistkr.json'))){
+        matchListKR = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistkr.json')));
+    }
+    if(fs.existsSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistna1.json'))){
+        matchListNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistna1.json')));
+    }
     var matchList = [];
     //push matches into a comman array one by one
-    for(let i = 0; i < Math.max(matchListEUW1.length, matchListKR.length, matchListNA1.length); i++){
-        if(matchListEUW1[i]){
+    for(let i = 0; i < Math.max(matchListEUW1 ? matchListEUW1.length : 0, matchListKR ? matchListKR.length : 0, matchListNA1 ? matchListNA1.length : 0); i++){
+        if(matchListEUW1 && matchListEUW1[i]){
             matchList.push(matchListEUW1[i])
         }
-        if(matchListKR[i]){
+        if(matchListKR && matchListKR[i]){
             matchList.push(matchListKR[i])
         }
-        if(matchListNA1[i]){
+        if(matchListNA1 && matchListNA1[i]){
             matchList.push(matchListNA1[i])
         }
     }
@@ -219,7 +228,7 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function(
                         enemyTeam = data[i][j].participants.slice(0,5);
                     }
                     if(playerPosition == 'Jungle'){
-                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id));
+                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id == 11));
                     } else {
                         versus = enemyTeam.find(participant => {
                             let enemyPosition = '';
@@ -353,7 +362,7 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() 
                         enemyTeam = data[i][j].participants.slice(0,5);
                     }
                     if(playerPosition == 'Jungle'){
-                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id));
+                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id == 11));
                     } else {
                         versus = enemyTeam.find(participant => {
                             let enemyPosition = '';
@@ -486,7 +495,7 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function()
                         enemyTeam = data[i][j].participants.slice(0,5);
                     }
                     if(playerPosition == 'Jungle'){
-                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id));
+                        versus = enemyTeam.find(participant => (participant.spell1Id == 11 || participant.spell2Id == 11));
                     } else {
                         versus = enemyTeam.find(participant => {
                             let enemyPosition = '';
