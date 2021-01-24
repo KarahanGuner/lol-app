@@ -7,14 +7,6 @@ import axios from 'axios';
 import {championNameKeyPairs, championLowerCaseNameDdragonNamePairs} from '../../miscData.js';
 
 function ChampionDetails() {
-  function shuffleArray(array) {
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var temp = array[i];
-        array[i] = array[j];
-        array[j] = temp;
-    }
-  }
   var {champion} = useParams();
   const [matches, updateMatches] = useState([]);
   console.log(matches);
@@ -27,7 +19,7 @@ function ChampionDetails() {
       url: `/championapi/${championKey}`,
       method: 'get',
     }).then(response => {
-      response.data.map(match =>{
+      response.data.forEach(match =>{
         let enemyName;
         for(let _champion in championNameKeyPairs){
           if(championNameKeyPairs[_champion] == match.versus){

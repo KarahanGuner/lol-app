@@ -83,16 +83,34 @@
 
 .score-container {
     text-align: left;
-    width: 55px;
-    min-width: 55px;
+    width: 65px;
+    min-width: 65px;
     margin-left: 30px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.score-container span {
+    margin-right: 1px;
+}
+
+.score-container .score-green {
+    color:#57D900;
+}
+
+.score-container .score-red {
+    color:#fe3636;
+}
+
+.score-container .score-transparent {
+    color: rgba(256, 256, 256, 0.4);
 }
 
 .level-container {
     text-align: center;
     width: 25;
     min-width: 25;
-    margin-left: 40px;
+    margin-left: 30px;
 }
 
 .items-container {
