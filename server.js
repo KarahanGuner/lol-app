@@ -28,7 +28,7 @@ app.get('/test2', function(req, res){
 });
 
 app.get('/test1', function(req, res){
-   
+
 });
 
 app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
@@ -272,14 +272,14 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function(
                     matchListForEachChampionEUW1[i][j].matchData.stats.perkSubStyle = runeInfo.find(runeTree => runeTree.id == matchListForEachChampionEUW1[i][j].matchData.stats.perkSubStyle).icon;
                     //getting info for summoner spells
                     for (const summonerSpell in summonerSpellsInfo.data) {
-                        if(summonerSpell.key == matchListForEachChampionEUW1[i][j].matchData.spell1Id){
-                            matchListForEachChampionEUW1[i][j].matchData.spell1Id = summonerSpell.image.full;
+                        if(summonerSpellsInfo.data[summonerSpell].key == matchListForEachChampionEUW1[i][j].matchData.spell1Id){
+                            matchListForEachChampionEUW1[i][j].matchData.spell1Id = summonerSpellsInfo.data[summonerSpell].image.full;
                             break;
                         }
                     }
                     for (const summonerSpell in summonerSpellsInfo.data) {
-                        if(summonerSpell.key == matchListForEachChampionEUW1[i][j].matchData.spell2Id){
-                            matchListForEachChampionEUW1[i][j].matchData.spell2Id = summonerSpell.image.full;
+                        if(summonerSpellsInfo.data[summonerSpell].key == matchListForEachChampionEUW1[i][j].matchData.spell2Id){
+                            matchListForEachChampionEUW1[i][j].matchData.spell2Id = summonerSpellsInfo.data[summonerSpell].image.full;
                             break;
                         }
                     }
@@ -406,14 +406,14 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() 
                     matchListForEachChampionKR[i][j].matchData.stats.perkSubStyle = runeInfo.find(runeTree => runeTree.id == matchListForEachChampionKR[i][j].matchData.stats.perkSubStyle).icon;
                     //getting info for summoner spells
                     for (const summonerSpell in summonerSpellsInfo.data) {
-                        if(summonerSpell.key == matchListForEachChampionKR[i][j].matchData.spell1Id){
-                            matchListForEachChampionKR[i][j].matchData.spell1Id = summonerSpell.image.full;
+                        if(summonerSpellsInfo.data[summonerSpell].key == matchListForEachChampionKR[i][j].matchData.spell1Id){
+                            matchListForEachChampionKR[i][j].matchData.spell1Id = summonerSpellsInfo.data[summonerSpell].image.full;
                             break;
                         }
                     }
                     for (const summonerSpell in summonerSpellsInfo.data) {
-                        if(summonerSpell.key == matchListForEachChampionKR[i][j].matchData.spell2Id){
-                            matchListForEachChampionKR[i][j].matchData.spell2Id = summonerSpell.image.full;
+                        if(summonerSpellsInfo.data[summonerSpell].key == matchListForEachChampionKR[i][j].matchData.spell2Id){
+                            matchListForEachChampionKR[i][j].matchData.spell2Id = summonerSpellsInfo.data[summonerSpell].image.full;
                             break;
                         }
                     }
@@ -539,14 +539,14 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function()
                     matchListForEachChampionNA1[i][j].matchData.stats.perkSubStyle = runeInfo.find(runeTree => runeTree.id == matchListForEachChampionNA1[i][j].matchData.stats.perkSubStyle).icon;
                     //getting info for summoner spells
                     for (const summonerSpell in summonerSpellsInfo.data) {
-                        if(summonerSpell.key == matchListForEachChampionNA1[i][j].matchData.spell1Id){
-                            matchListForEachChampionNA1[i][j].matchData.spell1Id = summonerSpell.image.full;
+                        if(summonerSpellsInfo.data[summonerSpell].key == matchListForEachChampionNA1[i][j].matchData.spell1Id){
+                            matchListForEachChampionNA1[i][j].matchData.spell1Id = summonerSpellsInfo.data[summonerSpell].image.full;
                             break;
                         }
                     }
                     for (const summonerSpell in summonerSpellsInfo.data) {
-                        if(summonerSpell.key == matchListForEachChampionNA1[i][j].matchData.spell2Id){
-                            matchListForEachChampionNA1[i][j].matchData.spell2Id = summonerSpell.image.full;
+                        if(summonerSpellsInfo.data[summonerSpell].key == matchListForEachChampionNA1[i][j].matchData.spell2Id){
+                            matchListForEachChampionNA1[i][j].matchData.spell2Id = summonerSpellsInfo.data[summonerSpell].image.full;
                             break;
                         }
                     }

@@ -38,7 +38,7 @@ function ChampionDetails() {
         enemyName = championLowerCaseNameDdragonNamePairs[enemyName];
         match.versus = enemyName;
       });
-      shuffleArray(response.data);//shufle it so that same players are not on top of each other all the time
+      response.data.sort((a, b) => (a.timestamp < b.timestamp) ? 1 : -1);
       updateMatches(response.data);
     });
   }, [championKey]);
