@@ -54,14 +54,19 @@
     margin-left: 95px;
     padding-left: 2.5px;
     border-left: 2.5px solid green;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .challengernameloss-container {
     text-align: left;
     width: 90px;
-    margin-left: 83px;
-    padding-left: 2px;
+    min-width: 90px;
+    margin-left: 95px;
+    padding-left: 2.5px;
     border-left: 2.5px solid red;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .challengerimage-container{

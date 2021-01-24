@@ -184,7 +184,7 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function(
                 if(!(matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion])){
                     matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion] = [];
                 };
-                matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListEUW1[i].matches[j].gameId, server: "EUW1"});
+                matchListForEachChampionEUW1[matchListEUW1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListEUW1[i].matches[j].gameId, server: "EUW1", timestamp: matchListEUW1[i].matches[j].timestamp});
             }
         }
     }
@@ -317,7 +317,7 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() 
                 if(!(matchListForEachChampionKR[matchListKR[i].matches[j].champion])){
                     matchListForEachChampionKR[matchListKR[i].matches[j].champion] = [];
                 };
-                matchListForEachChampionKR[matchListKR[i].matches[j].champion].push({summonerName: playerName, gameId:matchListKR[i].matches[j].gameId, server: "KR"});
+                matchListForEachChampionKR[matchListKR[i].matches[j].champion].push({summonerName: playerName, gameId:matchListKR[i].matches[j].gameId, server: "KR", timestamp: matchListKR[i].matches[j].timestamp});
                  
             }
         }
@@ -451,7 +451,7 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function()
                 if(!(matchListForEachChampionNA1[matchListNA1[i].matches[j].champion])){
                     matchListForEachChampionNA1[matchListNA1[i].matches[j].champion] = [];
                 };
-                matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId, server: "NA1"});
+                matchListForEachChampionNA1[matchListNA1[i].matches[j].champion].push({summonerName: playerName, gameId:matchListNA1[i].matches[j].gameId, server: "NA1", timestamp: matchListNA1[i].matches[j].timestamp});
             }
         }
     }

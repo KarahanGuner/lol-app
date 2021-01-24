@@ -2,8 +2,7 @@ import React from 'react';
 import './championdetailsbottom.styles.css';
 import ResultRow from  '../resultrow/resultrow.component';
 
-function ChampionDetailsBottom() {
-
+function ChampionDetailsBottom(props) {
   return (
     <div className="championdetailsbottom">
       <div className="results-container">
@@ -27,16 +26,8 @@ function ChampionDetailsBottom() {
             Gold
           </div>
         </div>
-        <ResultRow/>
-        <ResultRow/>
-        <ResultRow/>
-        <ResultRow/>
-        <ResultRow/>
-        <ResultRow/>
-        <ResultRow/>
-        <ResultRow/>
-        <ResultRow/>
-        <ResultRow/>
+        {props.matches.map((match, i) => <ResultRow key={i} championDdragonName={props.championDdragonName} match={match}/>)}
+
       </div>
       
     </div>

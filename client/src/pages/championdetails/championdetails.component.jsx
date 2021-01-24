@@ -7,15 +7,22 @@ import axios from 'axios';
 import {championNameKeyPairs, championLowerCaseNameDdragonNamePairs} from '../../miscData.js';
 
 function ChampionDetails() {
+  function shuffleArray(array) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+  }
   var {champion} = useParams();
-  const [matches, updateMatches] = useState();
+  const [matches, updateMatches] = useState([]);
+  console.log(matches);
   champion = (champion.replace(/\s/g, '')).toLowerCase();//i want people to be able to enter the champion name into the address bar and immediately get the champion they want. i want both "master yi" and "masteryi" to work. in the miscData file there are two objects. we take the value from useParams() and change it to a lowercase no space in between version of itself and find the champions key id from "championNameKeyPairs" object. we use "championLowerCaseNameDdragonNamePairs" object to find how a champion is named in the champion.json file. we need to do this to access the information in the ddragon files.
   const championKey = championNameKeyPairs[champion];
   const championDdragonName = championLowerCaseNameDdragonNamePairs[champion];//need this version of the champ name to read data from champion.json file
-  console.log('from champdetails ' + championDdragonName)
   
   useEffect(() => {
-    console.log(championKey)
     axios({
       url: `/championapi/${championKey}`,
       method: 'get',
@@ -31,16 +38,16 @@ function ChampionDetails() {
         enemyName = championLowerCaseNameDdragonNamePairs[enemyName];
         match.versus = enemyName;
       });
-      console.log(response.data)
+      shuffleArray(response.data);//shufle it so that same players are not on top of each other all the time
+      updateMatches(response.data);
     });
-    
   }, [championKey]);
   
 
   return (
     <div className="championdetails">
-      <ChampionDetailsTop championDdragonName={championDdragonName}/>
-      <ChampionDetailsBottom/>
+      <ChampionDetailsTop championDdragonName={championDdragonName} numberOfGames={matches.length}/>
+      <ChampionDetailsBottom championDdragonName={championDdragonName} matches={matches}/>
     </div>
     
   );
