@@ -13,6 +13,7 @@
 
 .header {
     margin-top: 5px;
+    min-width: 990px;
     padding-bottom: 2px;
     display: flex;
     color: #EED15F;
@@ -55,5 +56,6 @@
     }
     .header {
         width: 900px;
+        min-width: 0px;
     }
 }

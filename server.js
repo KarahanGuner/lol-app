@@ -6,8 +6,9 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fetch = require('node-fetch');
 var CronJob = require('cron').CronJob;
+const util = require('util') 
 const championBuckets = require('./data/misc/championBuckets');
-const beginTime = '1605225600000'; //will get matches starting from this epoch time point
+
 //are you gonna use compression??
 //are you gonna use express-sslify?
 require('dotenv').config();
@@ -16,6 +17,9 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 const amountOfPlayersFromEachServer = 15; //we look at the last 50 matches
+const beginTime = '1605225600000'; //will get matches starting from this epoch time point
+const readFileContent = util.promisify(fs.readFile);//makes readFile work as promise instead of callback
+
 //middlewares
 app.use(bodyParser.json());//parse json
 app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if extended is true parse nested objects
@@ -31,42 +35,33 @@ app.get('/test1', function(req, res){
 
 });
 
-app.get('/championapi/:championkey', function(req, res){ //is gonna return 10 "getMatch" jsons
+app.get('/championapi/:championkey', function(req, res){
+    console.log('/championapi/:championkey have been hit');
     const championKey = req.params.championkey;
-    var matchListEUW1;
-    var matchListKR;
-    var matchListNA1;
-    if(fs.existsSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlisteuw1.json'))){
-        matchListEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlisteuw1.json')));
-    }
-    if(fs.existsSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistkr.json'))){
-        matchListKR = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistkr.json')));
-    }
-    if(fs.existsSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistna1.json'))){
-        matchListNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, `data/champions/${championKey}`, 'matchlistna1.json')));
-    }
     var matchList = [];
-    //push matches into a comman array one by one
-    for(let i = 0; i < Math.max(matchListEUW1 ? matchListEUW1.length : 0, matchListKR ? matchListKR.length : 0, matchListNA1 ? matchListNA1.length : 0); i++){
-        if(matchListEUW1 && matchListEUW1[i]){
-            matchList.push(matchListEUW1[i])
-        }
-        if(matchListKR && matchListKR[i]){
-            matchList.push(matchListKR[i])
-        }
-        if(matchListNA1 && matchListNA1[i]){
-            matchList.push(matchListNA1[i])
-        }
-    }
-    res.status(200).send(matchList)
+    Promise.all([
+        readFileContent(path.join(__dirname, `data/champions/${championKey}`, 'matchlisteuw1.json')).then(data => JSON.parse(data)).catch(e => console.log(e)),
+        readFileContent(path.join(__dirname, `data/champions/${championKey}`, 'matchlistkr.json')).then(data => JSON.parse(data)).catch(e => console.log(e)),
+        readFileContent(path.join(__dirname, `data/champions/${championKey}`, 'matchlistna1.json')).then(data => JSON.parse(data)).catch(e => console.log(e))]).then(matches => {
+            //push matches into a comman array one by one
+                for(let i = 0; i < Math.max(matches[0] ? matches[0].length : 0, matches[1] ? matches[1].length : 0, matches[2] ? matches[2].length : 0); i++){
+                    if(matches[0] && matches[0][i]){
+                        matchList.push(matches[0][i])
+                    }
+                    if(matches[1] && matches[1][i]){
+                        matchList.push(matches[1][i])
+                    }
+                    if(matches[2] && matches[2][i]){
+                        matchList.push(matches[2][i])
+                    }
+                }
+                res.status(200).send(matchList)
+        }).catch(e => {res.status(500).send(e);});
 });
-
 
 app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
 });
-
-
 
 
 //getting challenger lists

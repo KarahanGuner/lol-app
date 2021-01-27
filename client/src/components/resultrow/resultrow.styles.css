@@ -64,7 +64,7 @@
     min-width: 90px;
     margin-left: 95px;
     padding-left: 2.5px;
-    border-left: 2.5px solid red;
+    border-left: 2.5px solid #dd2a2a;
     white-space: nowrap;
     overflow: hidden;
 }
@@ -122,6 +122,16 @@
 .items-container img {
     margin-left: 2px;
 }
+
+.items-container .empty-item {
+    margin-left: 2px;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 32px;
+    width: 32px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.6);
+}
+
 
 .gold-container {
     text-align: center;
