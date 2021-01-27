@@ -258,7 +258,7 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function(
                                 name: itemInfo.data[`${itemId}`].name,
                                 description: itemInfo.data[`${itemId}`].description,
                                 image: itemInfo.data[`${itemId}`].image.full,
-                                gold: itemInfo.data[`${itemId}`].gold.base
+                                gold: itemInfo.data[`${itemId}`].gold.total
                             }
                         }
                     }
@@ -392,7 +392,7 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() 
                                 name: itemInfo.data[`${itemId}`].name,
                                 description: itemInfo.data[`${itemId}`].description,
                                 image: itemInfo.data[`${itemId}`].image.full,
-                                gold: itemInfo.data[`${itemId}`].gold.base
+                                gold: itemInfo.data[`${itemId}`].gold.total
                             }
                         }
                     }
@@ -525,7 +525,7 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function()
                                 name: itemInfo.data[`${itemId}`].name,
                                 description: itemInfo.data[`${itemId}`].description,
                                 image: itemInfo.data[`${itemId}`].image.full,
-                                gold: itemInfo.data[`${itemId}`].gold.base
+                                gold: itemInfo.data[`${itemId}`].gold.total
                             }
                         }
                     }

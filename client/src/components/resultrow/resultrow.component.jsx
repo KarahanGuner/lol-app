@@ -1,19 +1,15 @@
-import React, {useState} from 'react';
+import React from 'react';
 import './resultrow.styles.css';
+import Tippy from '@tippyjs/react';
+import 'tippy.js/dist/tippy.css'
+import ContentForTooltip from '../contentfortooltip/contentfortooltip.component';
 import {currentPatch} from '../../miscData';
 
 function ResultRow(props) {
-  const itemReferenceZero = React.useRef(null);
-  const itemReferenceSix = React.useRef(null);
   console.log('resultrow rerendered')
-  const [hoveredDiv, changeHoveredDiv] = useState();
 
   return (
     <div className="result-row">
-      {hoveredDiv ? 
-        <div style={{position:`absolute`, width:`auto`, maxWidth:`400px`, height:`auto`, backgroundColor:`black`,left:`${hoveredDiv.positionLeft-84}px`,top:`${hoveredDiv.positionTop+50}px`}}><div>{hoveredDiv.item.name}</div><div dangerouslySetInnerHTML={{ __html: hoveredDiv.item.description }} /></div>: 
-        null
-      }
       <div className={props.match.matchData.stats.win ? `challengernamewon-container`: `challengernameloss-container`}>
         {props.match.summonerName}
       </div>
@@ -34,13 +30,9 @@ function ResultRow(props) {
       </div>
       <div className="items-container">
         {props.match.matchData.stats.item0 ? 
-          <img
-            ref={itemReferenceZero} 
-            onMouseEnter={() => {console.table('item reference'+ Object.entries(itemReferenceZero));console.log('offsetLeft = ' +itemReferenceZero.current.offsetLeft);console.log('offsetTop = ' +itemReferenceZero.current.offsetTop);changeHoveredDiv({item:props.match.matchData.stats.item0, positionLeft:itemReferenceZero.current.offsetLeft, positionTop:itemReferenceZero.current.offsetTop})}} 
-            onMouseLeave={() => {changeHoveredDiv();}} 
-            className="item-icon" 
-            src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item0.image}`} 
-            alt={`${props.match.matchData.stats.item0.name}`}/> :
+          <Tippy content={<ContentForTooltip itemName={props.match.matchData.stats.item0.name} image={props.match.matchData.stats.item0.image} gold={props.match.matchData.stats.item0.gold} description={props.match.matchData.stats.item0.description}></ContentForTooltip>}>
+            <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item0.image}`} alt={`${props.match.matchData.stats.item0.name}`}/>
+          </Tippy> :
           <div className="empty-item"></div>}
         {props.match.matchData.stats.item1 ? <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item1.image}`} alt={`${props.match.matchData.stats.item1.name}`}/>:<div className="empty-item"></div>}
         {props.match.matchData.stats.item2 ? <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item2.image}`} alt={`${props.match.matchData.stats.item2.name}`}/>:<div className="empty-item"></div>}
@@ -49,9 +41,6 @@ function ResultRow(props) {
         {props.match.matchData.stats.item5 ? <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item5.image}`} alt={`${props.match.matchData.stats.item5.name}`}/>:<div className="empty-item"></div>}
         {props.match.matchData.stats.item6 ? 
           <img 
-            ref={itemReferenceSix} 
-            onMouseEnter={() => {console.log('offsetLeft = ' +itemReferenceSix.current.offsetLeft);console.log('offsetTop = ' +itemReferenceSix.current.offsetTop);changeHoveredDiv({item:props.match.matchData.stats.item6, positionLeft:itemReferenceSix.current.offsetLeft, positionTop:itemReferenceSix.current.offsetTop})}} 
-            onMouseLeave={() => {changeHoveredDiv();}} 
             className="item-icon" 
             src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item6.image}`} 
             alt={`${props.match.matchData.stats.item6.name}`}/>:
