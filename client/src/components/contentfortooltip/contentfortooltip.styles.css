@@ -1,0 +1,27 @@
+.contentfortooltip-header {
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+.contentfortooltip-header .contentfortooltip-imageandname{
+    display: flex;
+    align-items: center;
+}
+.contentfortooltip-header img {
+    height: 48px;
+    width: 48px;
+}
+.contentfortooltip-header .contentfortooltip-itemname {
+    margin-left: 10px;
+    color: red;
+}
+.contentfortooltip-header .contentfortooltip-gold {
+    margin-left: 15px;
+    font-size: 16px;
+    justify-content: end;
+    color: gold;
+}
+.contentfortooltip-description {
+    margin-top: 8px;
+}

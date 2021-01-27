@@ -34,16 +34,35 @@ function ResultRow(props) {
             <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item0.image}`} alt={`${props.match.matchData.stats.item0.name}`}/>
           </Tippy> :
           <div className="empty-item"></div>}
-        {props.match.matchData.stats.item1 ? <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item1.image}`} alt={`${props.match.matchData.stats.item1.name}`}/>:<div className="empty-item"></div>}
-        {props.match.matchData.stats.item2 ? <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item2.image}`} alt={`${props.match.matchData.stats.item2.name}`}/>:<div className="empty-item"></div>}
-        {props.match.matchData.stats.item3 ? <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item3.image}`} alt={`${props.match.matchData.stats.item3.name}`}/>:<div className="empty-item"></div>}
-        {props.match.matchData.stats.item4 ? <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item4.image}`} alt={`${props.match.matchData.stats.item4.name}`}/>:<div className="empty-item"></div>}
-        {props.match.matchData.stats.item5 ? <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item5.image}`} alt={`${props.match.matchData.stats.item5.name}`}/>:<div className="empty-item"></div>}
+        {props.match.matchData.stats.item1 ?
+          <Tippy content={<ContentForTooltip itemName={props.match.matchData.stats.item1.name} image={props.match.matchData.stats.item1.image} gold={props.match.matchData.stats.item1.gold} description={props.match.matchData.stats.item1.description}></ContentForTooltip>}>
+            <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item1.image}`} alt={`${props.match.matchData.stats.item1.name}`}/>
+          </Tippy>:
+          <div className="empty-item"></div>}
+        {props.match.matchData.stats.item2 ? 
+          <Tippy content={<ContentForTooltip itemName={props.match.matchData.stats.item2.name} image={props.match.matchData.stats.item2.image} gold={props.match.matchData.stats.item2.gold} description={props.match.matchData.stats.item2.description}></ContentForTooltip>}>
+            <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item2.image}`} alt={`${props.match.matchData.stats.item2.name}`}/>
+          </Tippy>:
+          <div className="empty-item"></div>}
+        {props.match.matchData.stats.item3 ? 
+          <Tippy content={<ContentForTooltip itemName={props.match.matchData.stats.item3.name} image={props.match.matchData.stats.item3.image} gold={props.match.matchData.stats.item3.gold} description={props.match.matchData.stats.item3.description}></ContentForTooltip>}>
+            <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item3.image}`} alt={`${props.match.matchData.stats.item3.name}`}/>
+          </Tippy>:
+          <div className="empty-item"></div>}
+        {props.match.matchData.stats.item4 ? 
+          <Tippy content={<ContentForTooltip itemName={props.match.matchData.stats.item4.name} image={props.match.matchData.stats.item4.image} gold={props.match.matchData.stats.item4.gold} description={props.match.matchData.stats.item4.description}></ContentForTooltip>}>
+            <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item4.image}`} alt={`${props.match.matchData.stats.item4.name}`}/>
+          </Tippy>:
+          <div className="empty-item"></div>}
+        {props.match.matchData.stats.item5 ? 
+          <Tippy content={<ContentForTooltip itemName={props.match.matchData.stats.item5.name} image={props.match.matchData.stats.item5.image} gold={props.match.matchData.stats.item5.gold} description={props.match.matchData.stats.item5.description}></ContentForTooltip>}>
+            <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item5.image}`} alt={`${props.match.matchData.stats.item5.name}`}/>
+          </Tippy>:
+          <div className="empty-item"></div>}
         {props.match.matchData.stats.item6 ? 
-          <img 
-            className="item-icon" 
-            src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item6.image}`} 
-            alt={`${props.match.matchData.stats.item6.name}`}/>:
+          <Tippy content={<ContentForTooltip itemName={props.match.matchData.stats.item6.name} image={props.match.matchData.stats.item6.image} gold={props.match.matchData.stats.item6.gold} description={props.match.matchData.stats.item6.description}></ContentForTooltip>}>
+            <img className="item-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.match.matchData.stats.item6.image}`} alt={`${props.match.matchData.stats.item6.name}`}/>
+          </Tippy>:
           <div className="empty-item"></div>}
       </div>
       <div className="gold-container">
