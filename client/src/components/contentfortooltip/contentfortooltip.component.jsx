@@ -4,7 +4,7 @@ import {currentPatch} from '../../miscData';
 
 const ContentForTooltip = (props) => {
     return (
-        <div>
+        <div className="contentfortooltip">
             <div className="contentfortooltip-header">
                 <div className="contentfortooltip-imageandname"><img src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${props.image}`} alt={`${props.itemName}`}/>
                 <span className="contentfortooltip-itemname">{props.itemName}</span>

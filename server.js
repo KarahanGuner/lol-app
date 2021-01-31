@@ -23,13 +23,9 @@ const readFileContent = util.promisify(fs.readFile);//makes readFile work as pro
 //middlewares
 app.use(bodyParser.json());//parse json
 app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if extended is true parse nested objects
-app.use(cors());
+app.use(cors()); // will cors stay in production?
 
 app.use(express.static(path.join(__dirname, 'client/build')));
-
-app.get('/test2', function(req, res){
-
-});
 
 app.get('/test1', function(req, res){
 
@@ -57,6 +53,58 @@ app.get('/championapi/:championkey', function(req, res){
                 }
                 res.status(200).send(matchList)
         }).catch(e => {res.status(500).send(e);});
+});
+
+app.get('/matchapi/:server/:gameid/:championkey', function(req, res){
+    const server = req.params.server;
+    const gameid = req.params.gameid;
+    const championkey = req.params.championkey;
+    Promise.all([
+        fetch(`https://${server}.api.riotgames.com/lol/match/v4/matches/${gameid}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e)),//getMatch
+        fetch(`https://${server}.api.riotgames.com/lol/match/v4/timelines/by-match/${gameid}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e)),//getTimeline
+        readFileContent(path.join(__dirname, `data/details/en_GB`, 'item.json')).then(data => JSON.parse(data)).catch(e => console.log(e)),
+        readFileContent(path.join(__dirname, `data/details/en_GB`, 'runesReforged.json')).then(data => JSON.parse(data)).catch(e => console.log(e)),
+        readFileContent(path.join(__dirname, `data/details/en_GB`, 'summoner.json')).then(data => JSON.parse(data)).catch(e => console.log(e)),
+    ]).then(data => {
+            for(let i = 0; i < 10; i++){
+                //getting info for items and pushing them
+                for(let j = 0; j< 7; j++){
+                    let itemId = data[0].participants[i].stats[`item${j}`];
+                    if(itemId){
+                        data[0].participants[i].stats[`item${j}`] = 
+                        {
+                            name: data[2].data[`${itemId}`].name,
+                            description: data[2].data[`${itemId}`].description,
+                            image: data[2].data[`${itemId}`].image.full,
+                            gold: data[2].data[`${itemId}`].gold.total
+                        }
+                    }
+                }
+                //getting info for runes
+                data[0].participants[i].stats.perk0 = data[3].find(runeTree => runeTree.id == data[0].participants[i].stats.perkPrimaryStyle).slots[0].runes.find(keystone => keystone.id == data[0].participants[i].stats.perk0);
+                data[0].participants[i].stats.perkSubStyle = data[3].find(runeTree => runeTree.id == data[0].participants[i].stats.perkSubStyle).icon;
+                //getting info for summoner spells
+                for (const summonerSpell in data[4].data) {
+                    if(data[4].data[summonerSpell].key == data[0].participants[i].spell1Id){
+                        data[0].participants[i].spell1Id = data[4].data[summonerSpell].image.full;
+                        break;
+                    }
+                }
+                for (const summonerSpell in data[4].data) {
+                    if(data[4].data[summonerSpell].key == data[0].participants[i].spell2Id){
+                        data[0].participants[i].spell2Id = data[4].data[summonerSpell].image.full;
+                        break;
+                    }
+                }
+            }
+
+            
+
+        res.status(200).send(data);
+        }
+    ).catch(e => {res.status(500).send(e);});
+    
+    
 });
 
 app.get('/*', function(req, res){

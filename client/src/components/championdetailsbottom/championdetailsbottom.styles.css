@@ -9,6 +9,7 @@
     height: auto;
     margin: auto;
     overflow-x:auto;
+    padding-bottom: 10px;
 }
 
 .header {

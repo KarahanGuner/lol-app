@@ -150,6 +150,12 @@
     margin-left: 30px;
 }
 
+.tippy-box[data-theme~='itemtippy'] {
+    background-color: #253348;
+    border: 2px solid black;
+}
+
+
 @media (max-width: 760px) {
     .challengernamewon-container {
         margin-left: 15px;

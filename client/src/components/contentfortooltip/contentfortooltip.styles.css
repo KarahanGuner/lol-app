@@ -14,7 +14,7 @@
 }
 .contentfortooltip-header .contentfortooltip-itemname {
     margin-left: 10px;
-    color: red;
+    color: #fe3636;
 }
 .contentfortooltip-header .contentfortooltip-gold {
     margin-left: 15px;
@@ -24,4 +24,5 @@
 }
 .contentfortooltip-description {
     margin-top: 8px;
+    line-height: 16px;
 }
