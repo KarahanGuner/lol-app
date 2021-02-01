@@ -1,0 +1,38 @@
+[
+   {
+      "id":5005,
+      "name":"Attack Speed",
+      "description":"+10% Attack Speed",
+      "icon":"perk-images/StatMods/StatModsAttackSpeedIcon.png"
+   },
+   {
+      "id":5008,
+      "name":"Adaptive Force",
+      "description":"+9 Adaptive Force",
+      "icon":"perk-images/StatMods/StatModsAdaptiveForceIcon.png"
+   },
+   {
+      "id":5007,
+      "name":"Ability Haste",
+      "description":"+8 Ability Haste",
+      "icon":"perk-images/StatMods/StatModsCDRScalingIcon.png"
+   },
+   {
+      "id":5002,
+      "name":"Armor",
+      "description":"+6 Armor",
+      "icon":"perk-images/StatMods/StatModsArmorIcon.png"
+   },
+   {
+      "id":5003,
+      "name":"Magic Resist",
+      "description":"+8 Magic Resist",
+      "icon":"perk-images/StatMods/StatModsMagicResIcon.png"
+   },
+   {
+      "id":5001,
+      "name":"Health",
+      "description":"+15-90 health (based on level)",
+      "icon":"perk-images/StatMods/StatModsHealthScalingIcon.png"
+   }
+]
