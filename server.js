@@ -82,7 +82,8 @@ app.get('/matchapi/:server/:gameid/:championkey', function(req, res){
                 }
                 //getting info for runes
                 data[0].participants[i].stats.perk0 = runesDdragon.find(runeTree => runeTree.id == data[0].participants[i].stats.perkPrimaryStyle).slots[0].runes.find(keystone => keystone.id == data[0].participants[i].stats.perk0);
-                data[0].participants[i].stats.perkSubStyle = runesDdragon.find(runeTree => runeTree.id == data[0].participants[i].stats.perkSubStyle).icon;
+                let foundPerkSubStyle = runesDdragon.find(runeTree => runeTree.id == data[0].participants[i].stats.perkSubStyle);
+                data[0].participants[i].stats.perkSubStyle = {id: foundPerkSubStyle.id, name: foundPerkSubStyle.name, icon: foundPerkSubStyle.icon}
                 //getting info for summoner spells
                 for (const summonerSpell in summonerSpellsDdragon.data) {
                     if(summonerSpellsDdragon.data[summonerSpell].key == data[0].participants[i].spell1Id){
@@ -95,6 +96,24 @@ app.get('/matchapi/:server/:gameid/:championkey', function(req, res){
                         data[0].participants[i].spell2Id = summonerSpellsDdragon.data[summonerSpell].image.full;
                         break;
                     }
+                }
+                //more detailed rune info for the player
+                if(data[0].participants[i].championId == championkey){
+                    let primaryRuneTree = runesDdragon.find(runeTree => runeTree.id == data[0].participants[i].stats.perkPrimaryStyle);
+                    let secondaryRuneTree = runesDdragon.find(runeTree => runeTree.id == data[0].participants[i].stats.perkSubStyle.id);
+                    data[0].participants[i].stats.perk1 = primaryRuneTree.slots[1].runes.find(keystone => keystone.id == data[0].participants[i].stats.perk1);
+                    data[0].participants[i].stats.perk2 = primaryRuneTree.slots[2].runes.find(keystone => keystone.id == data[0].participants[i].stats.perk2);
+                    data[0].participants[i].stats.perk3 = primaryRuneTree.slots[3].runes.find(keystone => keystone.id == data[0].participants[i].stats.perk3);
+                    for(let j= 1; j <4; j++){
+                        if(secondaryRuneTree.slots[j].runes.find(rune => rune.id == data[0].participants[i].stats.perk4)){
+                            data[0].participants[i].stats.perk4 = secondaryRuneTree.slots[j].runes.find(rune => rune.id == data[0].participants[i].stats.perk4);
+                        }
+                        if(secondaryRuneTree.slots[j].runes.find(rune => rune.id == data[0].participants[i].stats.perk5)){
+                            data[0].participants[i].stats.perk5 = secondaryRuneTree.slots[j].runes.find(rune => rune.id == data[0].participants[i].stats.perk5);
+                        }
+                    }
+                    data[0].participants[i].stats.perkPrimaryStyle = {icon: primaryRuneTree.icon, name: primaryRuneTree.name};
+                    data[0].participants[i].stats.perkSubStyle = {icon: secondaryRuneTree.icon, name: secondaryRuneTree.name};
                 }
             }
         res.status(200).send(data);
