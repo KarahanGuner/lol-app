@@ -21,7 +21,7 @@ const beginTime = '1605225600000'; //will get matches starting from this epoch t
 const itemDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'item.json')));
 const runesDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'runesReforged.json')));
 const summonerSpellsDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'summoner.json')));
-const statPerksDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'statperks.json')));
+const statPerksDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'statPerks.json')));
 const readFileContent = util.promisify(fs.readFile);//makes readFile work as promise instead of callback
 
 //middlewares
@@ -115,9 +115,29 @@ app.get('/matchapi/:server/:gameid/:championkey', function(req, res){
                     }
                     data[0].participants[i].stats.perkPrimaryStyle = {icon: primaryRuneTree.icon, name: primaryRuneTree.name};
                     data[0].participants[i].stats.perkSubStyle = {icon: secondaryRuneTree.icon, name: secondaryRuneTree.name};
+                    //getting statperks
+                    data[0].participants[i].stats.statPerk0 = statPerksDdragon.find(stat => stat.id == data[0].participants[i].stats.statPerk0);
+                    data[0].participants[i].stats.statPerk1 = statPerksDdragon.find(stat => stat.id == data[0].participants[i].stats.statPerk1);
+                    data[0].participants[i].stats.statPerk2 = statPerksDdragon.find(stat => stat.id == data[0].participants[i].stats.statPerk2);
                 }
             }
-        res.status(200).send(data);
+            //getting timeline and ability order
+            let ourParticipantId = data[0].participants.find(participant => participant.championId == championkey).participantId;
+            let skillOrder = [];
+            let itemBuyingAndSelling = [];
+            for(let i = 0; i < data[1].frames.length; i++) {
+                for(let j = 0; j < data[1].frames[i].events.length; j++){
+                    if(ourParticipantId == data[1].frames[i].events[j].participantId){
+                        if(data[1].frames[i].events[j].type == "SKILL_LEVEL_UP") {
+                            skillOrder.push(data[1].frames[i].events[j]);
+                        } else if (data[1].frames[i].events[j].type == "ITEM_PURCHASED" || data[1].frames[i].events[j].type == "ITEM_SOLD" || data[1].frames[i].events[j].type == "ITEM_UNDO") {
+                            itemBuyingAndSelling.push(data[1].frames[i].events[j]);
+                        }
+                    }
+                }
+            }
+            data[1] = {skillOrder: skillOrder, itemBuyingAndSelling: itemBuyingAndSelling};
+            res.status(200).send(data);
         }
     ).catch(e => {res.status(500).send(e);});
 });
