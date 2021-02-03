@@ -1,5 +1,25 @@
 .matchdetails {
     background-color: #1C2636;
+    height: auto;
     min-height: 100vh;
     color: #e7effa;
+}
+
+.matchdetails-container {
+    margin: auto;
+    height: auto;
+    width: 70vw;
+    overflow-x:auto;
+}
+
+.matchdetails-scoreboard-container {
+    margin: auto;
+}
+
+@media (max-width: 760px) {
+    .matchdetails-container {
+        width: 94vw;
+        margin: auto;
+        overflow-x:auto;
+    }
 }

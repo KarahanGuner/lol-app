@@ -1,47 +1,37 @@
-.result-row-container{
-    width: 900px;
+.matchdetails-result-row-container{
+    width: 820px;
     margin: auto;
 }
 
-.result-row{
+.matchdetails-result-row {
     font-size: 15px;
     margin-top: 5px;
     display: flex;
     align-items: center;
     color: #e7effa;
-    transition: all 0.3s cubic-bezier(.25,.8,.25,1);
 }
 
-.result-row:hover {
-    width: 98%;
-    border-radius: 10px;
-    animation-duration: 0.25s;
-    padding: 2px;
-    border: 2px solid black;
-    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-}
-
-.champion-icon {
+.matchdetails-champion-icon {
     height: 32px;
     width: 32px;
     border: 0.5px solid black;
     border-radius: 8px;
 }
 
-.item-icon {
+.matchdetails-item-icon {
     height: 32px;
     width: 32px;
     border-radius: 8px;
     border: 1px solid rgba(0,0,0,0.6);
 }
 
-.row-icon {
+.matchdetails-row-icon {
     height: 32px;
     width: 32px;
     border-radius: 8px;
 }
 
-.secondary-rune-path-icon {
+.matchdetails-secondary-rune-path-icon {
     position: absolute;
     top: 16px;
     left: 16px;
@@ -51,39 +41,22 @@
     border-radius: 8px;
 }
 
-.challengernamewon-container {
+.matchdetails-challengername {
     text-align: left;
     width: 90px;
     min-width: 90px;
 
-    padding-left: 2.5px;
-    border-left: 2.5px solid green;
     white-space: nowrap;
+   
 }
 
-.challengernameloss-container {
-    text-align: left;
-    width: 90px;
-    min-width: 90px;
 
-    padding-left: 2.5px;
-    border-left: 2.5px solid #dd2a2a;
-    white-space: nowrap;
-}
-
-.challengerimage-container{
+.matchdetails-challengerimage-container{
     margin-left: 30px;
 }
 
-.cross-container {
-    margin-left: 15px;
-}
 
-.vs-container {
-    margin-left: 15px;
-}
-
-.score-container {
+.matchdetails-score-container {
     text-align: left;
     width: 65px;
     min-width: 65px;
@@ -92,81 +65,77 @@
     overflow: hidden;
 }
 
-.score-container span {
+.matchdetails-score-container span {
     margin-right: 1px;
 }
 
-.score-container .score-green {
+.matchdetails-score-container .matchdetails-score-green {
     color:#57D900;
 }
 
-.score-container .score-red {
+.matchdetails-score-container .matchdetails-score-red {
     color:#fe3636;
 }
 
-.score-container .score-transparent {
+.matchdetails-score-container .matchdetails-score-transparent {
     color: rgba(256, 256, 256, 0.4);
 }
 
-.level-container {
+.matchdetails-level-container {
     text-align: center;
     width: 25;
     min-width: 25;
     margin-left: 30px;
 }
 
-.items-container {
+.matchdetails-items-container {
     margin-left: 30px;
     display: flex;
     align-items: center;
 }
 
-.items-container img {
+.matchdetails-items-container img {
     margin-left: 2px;
 }
 
-.items-container .empty-item {
+.matchdetails-items-container .matchdetails-empty-item {
     margin-left: 2px;
     background-color: rgba(0, 0, 0, 0.5);
     height: 32px;
     width: 32px;
     border-radius: 8px;
-    border: 1px solid rgba(0,0,0,0.6);
+    border: 1px solid  rgba(0,0,0,0.6);
 }
 
 
-.gold-container {
+.matchdetails-gold-container {
     text-align: center;
     width: 45px;
     min-width: 45px;
     margin-left: 30px;
 }
 
-.keystone-container {
+.matchdetails-keystone-container {
     margin-left: 30px;
     position: relative;
 }
 
-.summonerspells-container {
+.matchdetails-summonerspells-container {
     display: flex;
     margin-left: 30px;
 }
 
-.tippy-box[data-theme~='itemtippy'] {
+.matchdetails-tippy-box[data-theme~='itemtippy'] {
     background-color: #253348;
     border: 2px solid black;
 }
 
 
 @media (max-width: 760px) {
-    .challengernamewon-container {
+    .matchdetails-challengernamewon-container {
         margin-left: 15px;
     }
-    .challengernameloss-container {
+    .matchdetails-challengernameloss-container {
         margin-left: 15px;
     }
-    .result-row:hover {
-        width: 980px;
-    }
-    
 }

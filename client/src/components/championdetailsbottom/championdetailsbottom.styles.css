@@ -12,6 +12,10 @@
     padding-bottom: 10px;
 }
 
+.header-container {
+    width: 990px;
+}
+
 .header {
     margin-top: 5px;
     min-width: 990px;
@@ -22,7 +26,7 @@
 }
 
 .challenger-header {
-    margin-left: 95px;
+    margin-left: calc(35vw - 450px);
 }
 
 .vs-header {
@@ -58,5 +62,8 @@
     .header {
         width: 900px;
         min-width: 0px;
+    }
+    .header-container {
+        width: 900px;
     }
 }

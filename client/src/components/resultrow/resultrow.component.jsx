@@ -9,6 +9,7 @@ function ResultRow(props) {
   console.log('resultrow rerendered')
 
   return (
+    <div className="result-row-container">
     <div className="result-row">
       <div className={props.match.matchData.stats.win ? `challengernamewon-container`: `challengernameloss-container`}>
         {props.match.summonerName}
@@ -76,6 +77,7 @@ function ResultRow(props) {
         <img className="row-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/spell/${props.match.matchData.spell1Id}`} alt={`${props.match.matchData.spell1Id}`}/>&nbsp;
         <img className="row-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/spell/${props.match.matchData.spell2Id}`} alt={`${props.match.matchData.spell2Id}`}/>
       </div>
+    </div>
     </div>
     
   );
