@@ -12,42 +12,6 @@
     padding-bottom: 10px;
 }
 
-.header-container {
-    width: 990px;
-}
-
-.header {
-    margin-top: 5px;
-    min-width: 990px;
-    padding-bottom: 2px;
-    display: flex;
-    color: #EED15F;
-    border-bottom: 2px solid black;
-}
-
-.challenger-header {
-    margin-left: calc(35vw - 450px);
-}
-
-.vs-header {
-    margin-left: 125px;
-}
-
-.score-header {
-    margin-left: 46px;
-}
-
-.level-header {
-    margin-left: 46px;
-}
-
-.finalbuild-header {
-    margin-left: 110px;
-}
-
-.gold-header {
-    margin-left: 125px;
-}
 
 @media (max-width: 760px) {
     .results-container {
@@ -55,15 +19,5 @@
         height: auto;
         margin: auto;
         overflow-x:auto;
-    }
-    .challenger-header {
-        margin-left: 15px;
-    }
-    .header {
-        width: 900px;
-        min-width: 0px;
-    }
-    .header-container {
-        width: 900px;
     }
 }

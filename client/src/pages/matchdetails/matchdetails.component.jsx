@@ -4,6 +4,7 @@ import './matchdetails.styles.css';
 import axios from 'axios';
 import {championNameKeyPairs, championLowerCaseNameDdragonNamePairs} from '../../miscData.js';
 import MatchDetailsResultRow from '../../components/matchdetailsresultrow/matchdetailsresultrow.component';
+import MatchDetailsHeader from '../../components/matchdetailsheader/matchdetailsheader.component';
 
 function MatchDetails() {
   var {champion, server, gameid} = useParams();
@@ -35,14 +36,19 @@ function MatchDetails() {
 
   return (
     <div className="matchdetails">
+      {matchDetails ?  
       <div className="matchdetails-container">
         <div className="matchdetails-scoreboard-container">
-          BLUE TEAM WON
-          {matchDetails ? matchDetails[0].participants.slice(0, 5).map((participant, i) => <MatchDetailsResultRow participantStats={participant} participantIdentity={matchDetails[0].participantIdentities[i].player.summonerName}/>): null}
-          RED TEAM LOST
-          {matchDetails ? matchDetails[0].participants.slice(5, 10).map((participant, i) => <MatchDetailsResultRow participantStats={participant} participantIdentity={matchDetails[0].participantIdentities[i+5].player.summonerName}/>): null}
+          BLUE TEAM {matchDetails[0].teams.win === "Win" ? `VICTORY` : `DEFEAT`}
+          <MatchDetailsHeader></MatchDetailsHeader>
+          {matchDetails ? matchDetails[0].participants.slice(0, 5).map((participant, i) => <MatchDetailsResultRow key={i} participantStats={participant} chosenParticipantKey={championKey} participantIdentity={matchDetails[0].participantIdentities[i].player.summonerName}/>): null}
+          RED TEAM {matchDetails[0].teams.win === "Win" ? `DEFEAT` : `VICTORY`}
+          <MatchDetailsHeader></MatchDetailsHeader>
+          {matchDetails ? matchDetails[0].participants.slice(5, 10).map((participant, i) => <MatchDetailsResultRow key={i+5} participantStats={participant} chosenParticipantKey={championKey} participantIdentity={matchDetails[0].participantIdentities[i+5].player.summonerName}/>): null}
         </div>
-      </div>
+      </div>:
+      null}
+     
     </div>
     
   );

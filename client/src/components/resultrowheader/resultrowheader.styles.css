@@ -1,0 +1,42 @@
+.resultrow-header-container{
+    width: 900px;
+    margin: auto;
+    border-bottom: 2px solid black;
+    padding-bottom: 2px;
+}
+
+.resultrow-header {
+    font-size: 15px;
+    margin-top: 5px;
+    display: flex;
+    align-items: center;
+    color: #EED15F;
+}
+
+.resultrow-header-challenger-container {
+    text-align: left;
+}
+
+.resultrow-header-versus-container {
+    text-align: left;
+    margin-left: 130px;
+}
+
+.resultrow-header-score-container {
+    text-align: left;
+    margin-left: 46px;
+}
+
+.resultrow-header-level-container {
+    text-align: left;
+    margin-left: 50px;
+}
+
+.resultrow-header-items-container {
+    margin-left: 113px;
+}
+
+.resultrow-header-gold-container {
+    text-align: left;
+    margin-left: 129px;
+}

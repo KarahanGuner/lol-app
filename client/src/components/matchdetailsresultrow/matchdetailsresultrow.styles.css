@@ -45,16 +45,12 @@
     text-align: left;
     width: 90px;
     min-width: 90px;
-
     white-space: nowrap;
-   
 }
-
 
 .matchdetails-challengerimage-container{
     margin-left: 30px;
 }
-
 
 .matchdetails-score-container {
     text-align: left;
@@ -107,7 +103,6 @@
     border: 1px solid  rgba(0,0,0,0.6);
 }
 
-
 .matchdetails-gold-container {
     text-align: center;
     width: 45px;
@@ -128,14 +123,4 @@
 .matchdetails-tippy-box[data-theme~='itemtippy'] {
     background-color: #253348;
     border: 2px solid black;
-}
-
-
-@media (max-width: 760px) {
-    .matchdetails-challengernamewon-container {
-        margin-left: 15px;
-    }
-    .matchdetails-challengernameloss-container {
-        margin-left: 15px;
-    }
 }

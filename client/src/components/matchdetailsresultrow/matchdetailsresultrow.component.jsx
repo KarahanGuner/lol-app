@@ -7,11 +7,10 @@ import {currentPatch} from '../../miscData';
 
 function MatchDetailsResultRow(props) {
   console.log('matchdetailsresultrow rerendered')
-
   return (
     <div className="matchdetails-result-row-container">
     <div className="matchdetails-result-row">
-      <div className="matchdetails-challengername">
+      <div style={props.chosenParticipantKey == props.participantStats.championId ? {color: '#57D900'}: null} className="matchdetails-challengername">
         {props.participantIdentity}
       </div>
       <div className="matchdetails-challengerimage-container">
