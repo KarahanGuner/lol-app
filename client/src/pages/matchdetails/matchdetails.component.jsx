@@ -39,7 +39,7 @@ function MatchDetails() {
       {matchDetails ?  
       <div className="matchdetails-container">
         <div className="matchdetails-scoreboard-container">
-          <div className="matchdetails-scoreboard-blueteam"><div>BLUE TEAM - {matchDetails[0].teams.win === "Win" ? `VICTORY` : `DEFEAT`}</div><div className="matchdetails-banned-champions">Bans:&nbsp;{matchDetails[0].teams[0].bans.map(bannedChampion => {
+          <div className="matchdetails-scoreboard-blueteam"><div><span style={{color: '#acc2ff', fontSize: '20px'}}>BLUE TEAM</span> - {matchDetails[0].teams.win === "Win" ? `VICTORY` : `DEFEAT`}</div><div className="matchdetails-banned-champions">Bans:&nbsp;{matchDetails[0].teams[0].bans.map(bannedChampion => {
             for(let _champion in championNameKeyPairs){
               if(championNameKeyPairs[_champion] == bannedChampion.championId){
                 return <img src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/champion/${championLowerCaseNameDdragonNamePairs[_champion]}.png`} alt="champion"/>;
@@ -48,7 +48,7 @@ function MatchDetails() {
           })}</div></div>
           <MatchDetailsHeader></MatchDetailsHeader>
           {matchDetails[0].participants.slice(0, 5).map((participant, i) => <MatchDetailsResultRow key={i} participantStats={participant} chosenParticipantKey={championKey} participantIdentity={matchDetails[0].participantIdentities[i].player.summonerName}/>)}
-          <div className="matchdetails-scoreboard-redteam"><div>RED TEAM - {matchDetails[0].teams.win === "Win" ? `DEFEAT` : `VICTORY`}</div><div className="matchdetails-banned-champions">Bans:&nbsp;{matchDetails[0].teams[1].bans.map(bannedChampion => {
+          <div className="matchdetails-scoreboard-redteam"><div><span style={{color: '#f85151', fontSize: '20px'}}>RED TEAM</span> - {matchDetails[0].teams.win === "Win" ? `DEFEAT` : `VICTORY`}</div><div className="matchdetails-banned-champions">Bans:&nbsp;{matchDetails[0].teams[1].bans.map(bannedChampion => {
             for(let _champion in championNameKeyPairs){
               if(championNameKeyPairs[_champion] == bannedChampion.championId){
                 return <img src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/champion/${championLowerCaseNameDdragonNamePairs[_champion]}.png`} alt="champion"/>;
