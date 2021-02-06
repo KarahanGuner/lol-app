@@ -16,6 +16,42 @@
     margin: auto;
 }
 
+.matchdetails-banned-champions  {
+    display: flex;
+    align-items: center;
+}
+
+.matchdetails-banned-champions img {
+    height: 24px;
+    width: 24px;
+    border: 0.5px solid black;
+    border-radius: 8px;
+}
+
+.matchdetails-scoreboard-blueteam {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    width: 820px;
+    margin-top: 15px;
+}
+
+.matchdetails-scoreboard-redteam {
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    width: 820px;
+    margin-top: 15px;
+}
+
+.matchdetails-scoreboard-gameduration{
+    color: rgba(256, 256, 256, 0.8);
+    width: 820px;
+    margin: auto;
+    text-align: right;
+    font-size: 14px;
+}
+
 @media (max-width: 760px) {
     .matchdetails-container {
         width: 94vw;

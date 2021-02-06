@@ -40,3 +40,10 @@
     text-align: left;
     margin-left: 129px;
 }
+
+@media (max-width: 760px) {
+    .resultrow-header-challenger-container {
+        margin-left: 15px;
+    }
+    
+}
