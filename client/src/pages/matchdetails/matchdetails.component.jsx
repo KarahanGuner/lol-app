@@ -29,6 +29,22 @@ function MatchDetails() {
           playerChampionName = championLowerCaseNameDdragonNamePairs[playerChampionName];
           participant.championName = playerChampionName;
         });
+        //get rid of undos
+        for(let i = 0; i < response.data[1].itemBuyingAndSelling.length; i++){
+          if(response.data[1].itemBuyingAndSelling[i].type === "ITEM_UNDO"){
+            response.data[1].itemBuyingAndSelling.splice(i-1, 2);
+            i = i -2;
+          }
+        }
+        //put same minute purchases into brackets array position represents minutes in game
+        response.data[2] = []
+        response.data[1].itemBuyingAndSelling.forEach(transaction => {
+          let transactionTime = Math.floor(transaction.timestamp/60000);
+          if(!(response.data[2][transactionTime])){
+            response.data[2][transactionTime] =[];
+          }
+          response.data[2][transactionTime].push(transaction);
+        });
         changeMatchDetails(response.data)
       });
   }, [championKey]);
@@ -39,25 +55,37 @@ function MatchDetails() {
       {matchDetails ?  
       <div className="matchdetails-container">
         <div className="matchdetails-scoreboard-container">
-          <div className="matchdetails-scoreboard-blueteam"><div><span style={{color: '#acc2ff', fontSize: '20px'}}>BLUE TEAM</span> - {matchDetails[0].teams.win === "Win" ? `VICTORY` : `DEFEAT`}</div><div className="matchdetails-banned-champions">Bans:&nbsp;{matchDetails[0].teams[0].bans.map(bannedChampion => {
+          <div className="matchdetails-scoreboard-blueteam"><div><span style={{color: '#acc2ff', fontSize: '20px'}}>BLUE TEAM</span> - {matchDetails[0].teams.win === "Win" ? `VICTORY` : `DEFEAT`}</div><div className="matchdetails-banned-champions">Bans:&nbsp;{matchDetails[0].teams[0].bans.map((bannedChampion, i) => {
             for(let _champion in championNameKeyPairs){
               if(championNameKeyPairs[_champion] == bannedChampion.championId){
-                return <img src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/champion/${championLowerCaseNameDdragonNamePairs[_champion]}.png`} alt="champion"/>;
+                return <img key={`banned${i}`} src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/champion/${championLowerCaseNameDdragonNamePairs[_champion]}.png`} alt="champion"/>;
               }
             }
           })}</div></div>
           <MatchDetailsHeader></MatchDetailsHeader>
           {matchDetails[0].participants.slice(0, 5).map((participant, i) => <MatchDetailsResultRow key={i} participantStats={participant} chosenParticipantKey={championKey} participantIdentity={matchDetails[0].participantIdentities[i].player.summonerName}/>)}
-          <div className="matchdetails-scoreboard-redteam"><div><span style={{color: '#f85151', fontSize: '20px'}}>RED TEAM</span> - {matchDetails[0].teams.win === "Win" ? `DEFEAT` : `VICTORY`}</div><div className="matchdetails-banned-champions">Bans:&nbsp;{matchDetails[0].teams[1].bans.map(bannedChampion => {
+          <div className="matchdetails-scoreboard-redteam"><div><span style={{color: '#f85151', fontSize: '20px'}}>RED TEAM</span> - {matchDetails[0].teams.win === "Win" ? `DEFEAT` : `VICTORY`}</div><div className="matchdetails-banned-champions">Bans:&nbsp;{matchDetails[0].teams[1].bans.map((bannedChampion, i) => {
             for(let _champion in championNameKeyPairs){
               if(championNameKeyPairs[_champion] == bannedChampion.championId){
-                return <img src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/champion/${championLowerCaseNameDdragonNamePairs[_champion]}.png`} alt="champion"/>;
+                return <img key={`banned${i+5}`} src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/champion/${championLowerCaseNameDdragonNamePairs[_champion]}.png`} alt="champion"/>;
               }
             }
           })}</div></div>
           <MatchDetailsHeader></MatchDetailsHeader>
           {matchDetails[0].participants.slice(5, 10).map((participant, i) => <MatchDetailsResultRow key={i+5} participantStats={participant} chosenParticipantKey={championKey} participantIdentity={matchDetails[0].participantIdentities[i+5].player.summonerName}/>)}
           <div className="matchdetails-scoreboard-gameduration">Game Duration: {`${Math.floor(matchDetails[0].gameDuration/60)} Minutes`}</div>
+        </div>
+        <div className="matchdetails-timeline-container">
+          <div className="matchdetails-timeline-header">Timeline</div>
+          <div className="matchdetails-timeline-items">
+            {matchDetails[2].map((itemsInAMinute, i) => {
+              return <div key={`timelineitemsInAMinute${i}`} className="matchdetails-timeline-itemsinaminute"><div className="matchdetails-timeline-itemsinaminute-item-container">
+              {itemsInAMinute.map((item, j) => {
+              return <div key={`timelineitem${i}${j}`} ><img src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${item.itemId}.png`} alt="item"/></div>
+              })}<span>arrow</span>
+              </div><div>{`${i} min`}</div></div>})
+            }
+          </div>
         </div>
       </div>:
       <div>LOADING</div>}

@@ -52,6 +52,34 @@
     font-size: 14px;
 }
 
+.matchdetails-timeline-container {
+    margin-top: 15px;
+}
+
+.matchdetails-timeline-header {
+    text-align: left;
+    color: #e7effa;
+    font-size: 20px;
+}
+
+.matchdetails-timeline-items {
+    display: flex;
+    font-size: 13px;
+}
+
+.matchdetails-timeline-itemsinaminute {
+    margin-right: 10px;
+}
+
+.matchdetails-timeline-itemsinaminute-item-container {
+    display: flex;
+}
+
+.matchdetails-timeline-itemsinaminute-item-container img {
+    height: 40px;
+    width: 40px;
+}
+
 @media (max-width: 760px) {
     .matchdetails-container {
         width: 94vw;
