@@ -79,13 +79,16 @@ function MatchDetails() {
           <div className="matchdetails-timeline-header">Timeline</div>
           <div className="matchdetails-timeline-items">
             {matchDetails[2].map((itemsInAMinute, i) => {
-              return <div key={`timelineitemsInAMinute${i}`} className="matchdetails-timeline-itemsinaminute"><div className="matchdetails-timeline-itemsinaminute-item-container">
+              return <div className="matchdetails-timeline-itemsinaminute-witharrow" key={`timelineitemsInAMinute${i}`}><div  className="matchdetails-timeline-itemsinaminute"><div className="matchdetails-timeline-itemsinaminute-item-container">
               {itemsInAMinute.map((item, j) => {
               return <div key={`timelineitem${i}${j}`} ><img src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${item.itemId}.png`} alt="item"/></div>
-              })}<span>arrow</span>
-              </div><div>{`${i} min`}</div></div>})
+              })}
+              </div><div className="matchdetails-timeline-itemsinaminute-minute">{`${i} min`}</div></div>{i == matchDetails[2].length-1 ? null :<i className="matchdetails-arrow-right"></i>}</div>})
             }
           </div>
+        </div>
+        <div className="matchdetails-abilityorder-container">
+            <div className="matchdetails-abilityorder-header">Ability Order</div>
         </div>
       </div>:
       <div>LOADING</div>}

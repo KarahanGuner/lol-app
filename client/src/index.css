@@ -35,13 +35,13 @@ code {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: rgba(0,0,0,0.1);
+  background: rgba(0,0,0,0.2);
 }
 ::-webkit-scrollbar-thumb{
-  background: rgba(0,0,0,0.4);
+  background: rgba(0,0,0,0.6);
 }
 ::-webkit-scrollbar-thumb:hover{
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.8);
 }
 ::-webkit-scrollbar-thumb:active{
   background: rgba(0,0,0,.9);
