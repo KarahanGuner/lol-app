@@ -81,14 +81,57 @@ function MatchDetails() {
             {matchDetails[2].map((itemsInAMinute, i) => {
               return <div className="matchdetails-timeline-itemsinaminute-witharrow" key={`timelineitemsInAMinute${i}`}><div  className="matchdetails-timeline-itemsinaminute"><div className="matchdetails-timeline-itemsinaminute-item-container">
               {itemsInAMinute.map((item, j) => {
-              return <div key={`timelineitem${i}${j}`} ><img src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${item.itemId}.png`} alt="item"/></div>
+              return <div key={`timelineitem${i}${j}`} ><img src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/item/${item.itemId}.png`} alt="item"/>{item.type === "ITEM_SOLD" ? <i className="matchdetails-timeline-cross"></i> :null}</div>
               })}
               </div><div className="matchdetails-timeline-itemsinaminute-minute">{`${i} min`}</div></div>{i == matchDetails[2].length-1 ? null :<i className="matchdetails-arrow-right"></i>}</div>})
             }
           </div>
         </div>
         <div className="matchdetails-abilityorder-container">
-            <div className="matchdetails-abilityorder-header">Ability Order</div>
+          <div className="matchdetails-abilityorder-header">Ability Order</div>
+          <div className="matchdetails-abilityorder-content">
+            <table className="matchdetails-abilityorder-table">
+              <tbody>
+              <tr>
+                <th>Q</th>
+                {matchDetails[1].skillOrder.map((levelUp, i) => {
+                  if(levelUp.skillSlot == 1) {
+                    return <td key={`Q${i}`} className="matchdetails-abilityorder-table-chosendata">{`${i+1}`}</td>
+                  } 
+                  return <td key={`Q${i}E`}></td>
+                })}
+              </tr>
+              <tr>
+                <th>W</th>
+                {matchDetails[1].skillOrder.map((levelUp, i) => {
+                  if(levelUp.skillSlot == 2) {
+                    return <td key={`W${i}`} className="matchdetails-abilityorder-table-chosendata">{`${i+1}`}</td>
+                  } 
+                  return <td key={`W${i}E`}></td>
+                })}
+              </tr>
+              <tr>
+                <th>E</th>
+                {matchDetails[1].skillOrder.map((levelUp, i) => {
+                  if(levelUp.skillSlot == 3) {
+                    return <td key={`E${i}`} className="matchdetails-abilityorder-table-chosendata">{`${i+1}`}</td>
+                  } 
+                  return <td key={`E${i}E`}></td>
+                })}
+              </tr>
+              <tr>
+                <th>R</th>
+                {matchDetails[1].skillOrder.map((levelUp, i) => {
+                  if(levelUp.skillSlot == 4) {
+                    return <td key={`R${i}`} className="matchdetails-abilityorder-table-chosendata">{`${i+1}`}</td>
+                  } 
+                  return <td key={`R${i}E`}></td>
+                })}
+              </tr>
+              </tbody>
+
+            </table>
+          </div>
         </div>
       </div>:
       <div>LOADING</div>}
