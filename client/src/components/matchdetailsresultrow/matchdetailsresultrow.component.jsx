@@ -4,15 +4,18 @@ import Tippy from '@tippyjs/react';
 import 'tippy.js/dist/tippy.css'
 import ContentForTooltip from '../contentfortooltip/contentfortooltip.component';
 import {currentPatch} from '../../miscData';
+import {Link} from 'react-router-dom';
 
 function MatchDetailsResultRow(props) {
   console.log('matchdetailsresultrow rerendered')
   return (
     <div className="matchdetails-result-row-container">
     <div className="matchdetails-result-row">
-      <div style={props.chosenParticipantKey == props.participantStats.championId ? {color: '#57D900'}: null} className="matchdetails-challengername">
-        {props.participantIdentity}
-      </div>
+      <Link style={{textDecoration: 'none', color: '#e7effa'}} to={`/matches/${props.linkProps.server}/${props.linkProps.gameId}/${props.linkProps.championName}`}>
+        <div style={props.chosenParticipantKey == props.participantStats.championId ? {color: '#57D900'}: null} className="matchdetails-challengername">
+          {props.participantIdentity}
+        </div>
+      </Link>  
       <div className="matchdetails-challengerimage-container">
         <img className="matchdetails-champion-icon" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/champion/${props.participantStats.championName}.png`} alt="champion"/>
       </div>
