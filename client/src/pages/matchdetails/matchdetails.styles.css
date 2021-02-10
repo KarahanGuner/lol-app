@@ -151,9 +151,79 @@
 }
 
 .matchdetails-abilityorder-table-chosendata {
-    
     background-color: #3a495f;
 }
+
+.matchdetails-runes-container {
+    width: 820px;
+    margin: auto;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.matchdetails-runes-header {
+    font-size: 24px;
+    text-align: center;
+    color: #e7effa;
+    margin-bottom: 5px;
+}
+
+.matchdetails-runes-contents {
+    display: flex;
+    justify-content: space-between;
+}
+
+.matchdetails-runes-primaryrunes {
+    width: 400px;
+    text-align: center;
+}
+.matchdetails-runes-secondaryrunes {
+    width: 400px;
+    text-align: center;
+}
+
+.matchdetails-runes-runeholder {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.matchdetails-runes-runeholder img{
+    height: 64px;
+    width: 64px;
+    border: 1px solid black;
+    border-radius: 32px;
+}
+
+.matchdetails-runes-runepath {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.matchdetails-runes-runepath img{
+    height: 48px;
+    width: 48px;
+}
+
+.matchdetails-runes-runename{
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.matchdetails-runes-runedescription {
+    font-size: 14px;
+}
+
+.matchdetails-runes-stats-statsholder {
+    display: flex;
+    align-items: center;
+}
+
+
 
 @media (max-width: 760px) {
     .matchdetails-container {
