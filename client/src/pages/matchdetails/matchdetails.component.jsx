@@ -5,6 +5,7 @@ import axios from 'axios';
 import {championNameKeyPairs, championLowerCaseNameDdragonNamePairs, currentPatch} from '../../miscData.js';
 import MatchDetailsResultRow from '../../components/matchdetailsresultrow/matchdetailsresultrow.component';
 import MatchDetailsHeader from '../../components/matchdetailsheader/matchdetailsheader.component';
+import Spinner from '../../components/spinner/spinner.component';
 
 function MatchDetails() {
   var {champion, server, gameid} = useParams();
@@ -217,7 +218,7 @@ function MatchDetails() {
           </div>
         </div>
       </div>:
-      <div>LOADING</div>}
+      <Spinner/>}
      
     </div>
     
