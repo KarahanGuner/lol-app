@@ -6,7 +6,6 @@ import ErrorBoundary from './components/errorboundary/errorboundary.component';
 import {Switch, Route, Redirect} from 'react-router-dom';
 
 function App() {
-  
   return (
     <div className="App">
       <Switch>
@@ -25,7 +24,6 @@ function App() {
           </Route>
           <Redirect to='/'/>
       </Switch>
-      
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {Link} from 'react-router-dom';
+import './errorboundary.styles.css';
 class ErrorBoundary extends Component {
   constructor() {
     super();
@@ -13,7 +15,7 @@ class ErrorBoundary extends Component {
   }
   render() {
     if (this.state.hasError) {
-      return <h1>Uh oh! Something went wrong.</h1>;
+      return (<div className="error-page"><h1>Uh oh! Something went wrong.</h1><Link style={{textDecoration: 'none', color: '#e7effa'}} to="/"><div>Click to Return Home</div></Link></div>)
     }
     return this.props.children;
   }
