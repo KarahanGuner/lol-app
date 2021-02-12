@@ -8,11 +8,11 @@ const fetch = require('node-fetch');
 var CronJob = require('cron').CronJob;
 const util = require('util') 
 const championBuckets = require('./data/misc/championBuckets');
+const { json } = require('body-parser');
 
 //are you gonna use compression??
 //are you gonna use express-sslify?
 require('dotenv').config();
-
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,10 +30,6 @@ app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if e
 app.use(cors()); // will cors stay in production?
 
 app.use(express.static(path.join(__dirname, 'client/build')));
-
-app.get('/test1', function(req, res){
-
-});
 
 app.get('/championapi/:championkey', function(req, res){
     console.log('/championapi/:championkey have been hit');
@@ -169,9 +165,9 @@ var getChallengerListNA1Job = new CronJob('49 23 * * 0', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengerssummoneridna1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-getChallengerListEUW1Job.start();
-getChallengerListKRJob.start();
-getChallengerListNA1Job.start();
+// getChallengerListEUW1Job.start();
+// getChallengerListKRJob.start();
+// getChallengerListNA1Job.start();
 
 //getting accountid from summonerid
 var getAccountIDFromSummonerIDEUW1Job = new CronJob('50 23 * * 0', function() {
@@ -207,9 +203,9 @@ var getAccountIDFromSummonerIDNA1Job = new CronJob('52 23 * * 0', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidna1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-getAccountIDFromSummonerIDEUW1Job.start();
-getAccountIDFromSummonerIDKRJob.start();
-getAccountIDFromSummonerIDNA1Job.start();
+// getAccountIDFromSummonerIDEUW1Job.start();
+// getAccountIDFromSummonerIDKRJob.start();
+// getAccountIDFromSummonerIDNA1Job.start();
 
 //getting match list from account id
 var getMatchListFromAccountIDEUW1Job = new CronJob('53 23 * * *', function() {
@@ -242,12 +238,12 @@ var getMatchListFromAccountIDNA1Job = new CronJob('55 23 * * *', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistna1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-getMatchListFromAccountIDEUW1Job.start();
-getMatchListFromAccountIDKRJob.start();
-getMatchListFromAccountIDNA1Job.start();
+// getMatchListFromAccountIDEUW1Job.start();
+// getMatchListFromAccountIDKRJob.start();
+// getMatchListFromAccountIDNA1Job.start();
 
 //creating match lists for each champion
-var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function() {
+var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * *', function() {
     console.log('Creating match lists for each champion for EUW1');
     const itemInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'item.json')));
     const runeInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'runesReforged.json')));
@@ -380,7 +376,7 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * 0', function(
         }
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() {
+var createMatchListForEachChampionKRJob = new CronJob('57 23 * * *', function() {
     console.log('Creating match lists for each champion for KR');
     const itemInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'item.json')));
     const runeInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'runesReforged.json')));
@@ -514,7 +510,7 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * 0', function() 
         }
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function() {
+var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * *', function() {
     console.log('Creating match lists for each champion for NA1');
     const itemInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'item.json')));
     const runeInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'runesReforged.json')));
@@ -533,7 +529,7 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function()
             }
         }
     }
-    matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,5);
+    matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,3);
     let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
     Promise.all(matchListForEachChampionNA1.map(function(champion){
         return Promise.all(champion.map(function(match){
@@ -647,9 +643,9 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * 0', function()
         }
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-createMatchListForEachChampionEUW1Job.start();
-createMatchListForEachChampionKRJob.start();
-createMatchListForEachChampionNA1Job.start();
+// createMatchListForEachChampionEUW1Job.start();
+// createMatchListForEachChampionKRJob.start();
+// createMatchListForEachChampionNA1Job.start();
 
 
 app.listen(PORT, error => {
