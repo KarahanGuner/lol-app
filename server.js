@@ -6,13 +6,14 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const fetch = require('node-fetch');
 var CronJob = require('cron').CronJob;
-const util = require('util') 
+const util = require('util');
+const compression = require('compression');
 const championBuckets = require('./data/misc/championBuckets');
 const { json } = require('body-parser');
 
 //are you gonna use compression??
 //are you gonna use express-sslify?
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -28,6 +29,7 @@ const readFileContent = util.promisify(fs.readFile);//makes readFile work as pro
 app.use(bodyParser.json());//parse json
 app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if extended is true parse nested objects
 app.use(cors()); // will cors stay in production?
+app.use(compression());
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
