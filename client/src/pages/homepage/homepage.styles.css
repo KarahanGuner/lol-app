@@ -2,6 +2,26 @@
     margin-top: 30vh;
 }
 
+.homepage-text {
+    margin-top: 70px;
+}
+
+.homepage-text-header {
+    color: #EED15F;
+    font-weight: 600;
+    letter-spacing: 3px;
+    font-size: 80px;
+    text-shadow: 2px 2px 4px #000000;
+}
+
+.homepage-text-header-firstletter {
+    font-size: 110px;
+}
+
+.homepage-text-content {
+    color: #c8dbdc;
+    font-size: 30px;
+}
 
 .homepage {
     height: 100vh;
@@ -10,4 +30,27 @@
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
+}
+
+@media (max-width: 760px) {
+    .homepage-text {
+        margin-top: 25px;
+    }
+    
+    .homepage-text-header {
+        font-weight: 600;
+        font-size: 40px;
+        letter-spacing: 2px;
+        line-height: 45px;
+    }
+    
+    .homepage-text-header-firstletter {
+        font-size: 50px;
+    }
+    
+    .homepage-text-content {
+        font-size: 16px;
+        margin-left: 4px;
+        margin-right: 4px;
+    }
 }
