@@ -31,7 +31,9 @@ app.use(bodyParser.json());//parse json
 app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if extended is true parse nested objects
 app.use(cors()); // will cors stay in production?
 app.use(compression());
-app.use(enforce.HTTPS({trustProtoHeader: true}));
+if(process.env.NODE_ENV === 'production'){
+    app.use(enforce.HTTPS({trustProtoHeader: true}));
+}
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
@@ -141,6 +143,7 @@ app.get('/matchapi/:server/:gameid/:championkey', function(req, res){
         }
     ).catch(e => {res.status(500).send(e);});
 });
+
 
 app.get('/*', function(req, res){
     res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
