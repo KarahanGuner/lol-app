@@ -9,8 +9,9 @@
 # testing
 /coverage
 
-# production
-/build
+# client files are unnecessary for aws
+/client
+
 
 # misc
 .DS_Store

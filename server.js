@@ -35,7 +35,7 @@ if(process.env.NODE_ENV === 'production'){
     app.use(enforce.HTTPS({trustProtoHeader: true}));
 }
 
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, 'build')));
 
 app.get('/championapi/:championkey', function(req, res){
     console.log('/championapi/:championkey have been hit');
@@ -146,7 +146,7 @@ app.get('/matchapi/:server/:gameid/:championkey', function(req, res){
 
 
 app.get('/*', function(req, res){
-    res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 
