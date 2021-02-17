@@ -31,9 +31,9 @@ app.use(bodyParser.json());//parse json
 app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if extended is true parse nested objects
 app.use(cors()); // will cors stay in production?
 app.use(compression());
-if(process.env.NODE_ENV === 'production'){
-    app.use(enforce.HTTPS({trustProtoHeader: true}));
-}
+// if(process.env.NODE_ENV === 'production'){
+//     app.use(enforce.HTTPS({trustProtoHeader: true}));
+// }
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
