@@ -23,7 +23,7 @@ const beginTime = '1605225600000'; //will get matches starting from this epoch t
 const itemDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'item.json')));
 const runesDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'runesReforged.json')));
 const summonerSpellsDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'summoner.json')));
-const statPerksDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'statPerks.json')));
+const statPerksDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'statperks.json')));
 const readFileContent = util.promisify(fs.readFile);//makes readFile work as promise instead of callback
 
 //middlewares
