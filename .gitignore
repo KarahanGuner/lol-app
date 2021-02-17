@@ -9,9 +9,6 @@
 # testing
 /coverage
 
-# client files are unnecessary for aws
-/client
-
 
 # misc
 .DS_Store
