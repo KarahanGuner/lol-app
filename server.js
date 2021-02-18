@@ -12,7 +12,6 @@ const championBuckets = require('./data/misc/championBuckets');
 const enforce = require('express-sslify');
 const { json } = require('body-parser');
 
-//are you gonna use compression??
 //are you gonna use express-sslify?
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
