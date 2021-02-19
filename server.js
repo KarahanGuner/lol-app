@@ -9,7 +9,6 @@ var CronJob = require('cron').CronJob;
 const util = require('util');
 const compression = require('compression');
 const championBuckets = require('./data/misc/championBuckets');
-const enforce = require('express-sslify');
 const { json } = require('body-parser');
 
 //are you gonna use express-sslify?
@@ -30,9 +29,6 @@ app.use(bodyParser.json());//parse json
 app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if extended is true parse nested objects
 app.use(cors()); // will cors stay in production?
 app.use(compression());
-// if(process.env.NODE_ENV === 'production'){
-//     app.use(enforce.HTTPS({trustProtoHeader: true}));
-// }
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 

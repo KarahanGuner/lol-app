@@ -19,8 +19,12 @@
 }
 
 .homepage-text-content {
-    color: #c8dbdc;
+    color: white;
     font-size: 30px;
+}
+
+.homepage-text-content-olaf {
+    color: red;
 }
 
 .homepage {

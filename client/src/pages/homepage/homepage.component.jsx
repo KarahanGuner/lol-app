@@ -18,7 +18,7 @@ function Homepage() {
           THIS WEBSITE IS UNDER CONSTRUCTION.
         </div>
         <div className="homepage-text-content">
-          DATA HAS BEEN FETCHED ONLY FOR THE CHAMPION "OLAF".
+          DATA HAS BEEN FETCHED ONLY FOR THE CHAMPION <span className="homepage-text-content-olaf">"OLAF"</span>.
         </div>
       </div>
     </div>
