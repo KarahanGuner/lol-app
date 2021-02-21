@@ -32,6 +32,7 @@ app.use(compression());
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
+
 app.get('/championapi/:championkey', function(req, res){
     console.log('/championapi/:championkey have been hit');
     const championKey = req.params.championkey;
@@ -55,6 +56,7 @@ app.get('/championapi/:championkey', function(req, res){
                 res.status(200).send(matchList)
         }).catch(e => {res.status(500).send(e);});
 });
+
 
 app.get('/matchapi/:server/:gameid/:championkey', function(req, res){
     const server = req.params.server;
@@ -146,21 +148,21 @@ app.get('/*', function(req, res){
 
 
 //getting challenger lists
-var getChallengerListEUW1Job = new CronJob('47 23 * * 0', function() {
+var getChallengerListEUW1Job = new CronJob('01 23 * * 0', function() {
     console.log('Getting Challenger Lists for EUW1');
     //EUW1
     fetch(`https://euw1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => JSON.stringify(data)).then(stringdata => {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengerssummonerideuw1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getChallengerListKRJob = new CronJob('48 23 * * 0', function() {
+var getChallengerListKRJob = new CronJob('02 23 * * 0', function() {
     console.log('Getting Challenger Lists for KR');
     //KR
     fetch(`https://kr.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => JSON.stringify(data)).then(stringdata => {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengerssummoneridkr.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getChallengerListNA1Job = new CronJob('49 23 * * 0', function() {
+var getChallengerListNA1Job = new CronJob('03 23 * * 0', function() {
     console.log('Getting Challenger Lists for NA1');
     //NA1
     fetch(`https://na1.api.riotgames.com/lol/league/v4/challengerleagues/by-queue/RANKED_SOLO_5x5?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).then(data => JSON.stringify(data)).then(stringdata => {
@@ -172,7 +174,7 @@ var getChallengerListNA1Job = new CronJob('49 23 * * 0', function() {
 // getChallengerListNA1Job.start();
 
 //getting accountid from summonerid
-var getAccountIDFromSummonerIDEUW1Job = new CronJob('50 23 * * 0', function() {
+var getAccountIDFromSummonerIDEUW1Job = new CronJob('04 23 * * 0', function() {
     console.log('Getting Account IDs from Summoner IDS for EUW1');
     //EUW1
     const dataEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengerssummonerideuw1.json')));
@@ -183,7 +185,7 @@ var getAccountIDFromSummonerIDEUW1Job = new CronJob('50 23 * * 0', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountideuw1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getAccountIDFromSummonerIDKRJob = new CronJob('51 23 * * 0', function() {
+var getAccountIDFromSummonerIDKRJob = new CronJob('05 23 * * 0', function() {
     console.log('Getting Account IDs from Summoner IDS for KR');
     //KR
     const dataKR = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengerssummoneridkr.json')));
@@ -194,7 +196,7 @@ var getAccountIDFromSummonerIDKRJob = new CronJob('51 23 * * 0', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidkr.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getAccountIDFromSummonerIDNA1Job = new CronJob('52 23 * * 0', function() {
+var getAccountIDFromSummonerIDNA1Job = new CronJob('06 23 * * 0', function() {
     console.log('Getting Account IDs from Summoner IDS for NA1');
     //NA1
     const dataNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengerssummoneridna1.json')));
@@ -210,7 +212,7 @@ var getAccountIDFromSummonerIDNA1Job = new CronJob('52 23 * * 0', function() {
 // getAccountIDFromSummonerIDNA1Job.start();
 
 //getting match list from account id
-var getMatchListFromAccountIDEUW1Job = new CronJob('53 23 * * *', function() {
+var getMatchListFromAccountIDEUW1Job = new CronJob('07 23 * * *', function() {
     console.log('Getting Match List of Challenger Players for EUW1');
     //EUW1
     const accountIDsEUW1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountideuw1.json')));
@@ -220,7 +222,7 @@ var getMatchListFromAccountIDEUW1Job = new CronJob('53 23 * * *', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlisteuw1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getMatchListFromAccountIDKRJob = new CronJob('54 23 * * *', function() {
+var getMatchListFromAccountIDKRJob = new CronJob('08 23 * * *', function() {
     console.log('Getting Match List of Challenger Players for KR');
     //KR
     const accountIDsKR = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidkr.json')));
@@ -230,7 +232,7 @@ var getMatchListFromAccountIDKRJob = new CronJob('54 23 * * *', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistkr.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var getMatchListFromAccountIDNA1Job = new CronJob('55 23 * * *', function() {
+var getMatchListFromAccountIDNA1Job = new CronJob('09 23 * * *', function() {
     console.log('Getting Match List of Challenger Players for NA1');
     //NA1
     const accountIDsNA1 = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidna1.json')));
@@ -245,7 +247,7 @@ var getMatchListFromAccountIDNA1Job = new CronJob('55 23 * * *', function() {
 // getMatchListFromAccountIDNA1Job.start();
 
 //creating match lists for each champion
-var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * *', function() {
+var createMatchListForEachChampionEUW1Job = new CronJob('10 23 * * *', function() {
     console.log('Creating match lists for each champion for EUW1');
     const itemInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'item.json')));
     const runeInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'runesReforged.json')));
@@ -266,15 +268,23 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * *', function(
     }
     matchListForEachChampionEUW1 = matchListForEachChampionEUW1.slice(0,3);
     let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
+    let championCounter = 0;
     Promise.all(matchListForEachChampionEUW1.map(function(champion){
-        return Promise.all(champion.map(function(match){
-            if(match.gameId){
-                return fetch(`https://euw1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
-            } else {
-                return undefined;
-            }
-          
-        }));
+        if(!champion) {
+            return undefined;
+        }
+        championCounter = championCounter + 1;
+        return new Promise(function(resolve, reject) {
+            setTimeout(function() {
+              resolve(Promise.all(champion.map(function(match){
+                if(match.gameId){
+                    return fetch(`https://euw1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
+                } else {
+                    return undefined;
+                }
+            })));
+            }, 2000 * championCounter);
+        });
     })).then(function(data) {
         for(let i = 0; i<data.length; i++){
             if(data[i]){
@@ -378,7 +388,7 @@ var createMatchListForEachChampionEUW1Job = new CronJob('56 23 * * *', function(
         }
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var createMatchListForEachChampionKRJob = new CronJob('57 23 * * *', function() {
+var createMatchListForEachChampionKRJob = new CronJob('18 23 * * *', function() {
     console.log('Creating match lists for each champion for KR');
     const itemInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'item.json')));
     const runeInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'runesReforged.json')));
@@ -400,15 +410,23 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * *', function() 
     }
     matchListForEachChampionKR = matchListForEachChampionKR.slice(0,3);
     let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
+    let championCounter = 0;
     Promise.all(matchListForEachChampionKR.map(function(champion){
-        return Promise.all(champion.map(function(match){
-            if(match.gameId){
-                return fetch(`https://kr.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
-            } else {
-                return undefined;
-            }
-          
-        }));
+        if(!champion) {
+            return undefined;
+        }
+        championCounter = championCounter + 1;
+        return new Promise(function(resolve, reject) {
+            setTimeout(function() {
+              resolve(Promise.all(champion.map(function(match){
+                if(match.gameId){
+                    return fetch(`https://kr.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
+                } else {
+                    return undefined;
+                }
+            })));
+            }, 2000 * championCounter);
+        });
     })).then(function(data) {
         for(let i = 0; i<data.length; i++){
             if(data[i]){
@@ -512,7 +530,7 @@ var createMatchListForEachChampionKRJob = new CronJob('57 23 * * *', function() 
         }
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * *', function() {
+var createMatchListForEachChampionNA1Job = new CronJob('24 23 * * *', function() {
     console.log('Creating match lists for each champion for NA1');
     const itemInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'item.json')));
     const runeInfo = JSON.parse(fs.readFileSync(path.join(__dirname, 'data/details/en_GB', 'runesReforged.json')));
@@ -533,15 +551,23 @@ var createMatchListForEachChampionNA1Job = new CronJob('58 23 * * *', function()
     }
     matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,3);
     let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
+    let championCounter = 0;
     Promise.all(matchListForEachChampionNA1.map(function(champion){
-        return Promise.all(champion.map(function(match){
-            if(match.gameId){
-                return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
-            } else {
-                return undefined;
-            }
-          
-        }));
+        if(!champion) {
+            return undefined;
+        }
+        championCounter = championCounter + 1;
+        return new Promise(function(resolve, reject) {
+            setTimeout(function() {
+              resolve(Promise.all(champion.map(function(match){
+                if(match.gameId){
+                    return fetch(`https://na1.api.riotgames.com/lol/match/v4/matches/${match.gameId}?api_key=${process.env.LOL_API_KEY}`).then(response => response.json()).catch(e => console.log(e));
+                } else {
+                    return undefined;
+                }
+            })));
+            }, 2000 * championCounter);
+        });
     })).then(function(data) {
         for(let i = 0; i<data.length; i++){
             if(data[i]){
