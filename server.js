@@ -25,10 +25,11 @@ const statPerksDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/d
 const readFileContent = util.promisify(fs.readFile);//makes readFile work as promise instead of callback
 
 //middlewares
+app.use(compression());
 app.use(bodyParser.json());//parse json
 app.use(bodyParser.urlencoded({extended: true}));//parse strings arrays and if extended is true parse nested objects
 app.use(cors()); // will cors stay in production?
-app.use(compression());
+
 
 app.use(express.static(path.join(__dirname, 'client/build')));
 
