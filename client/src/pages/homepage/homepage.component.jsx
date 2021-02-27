@@ -15,10 +15,7 @@ function Homepage() {
           <span className="homepage-text-header-firstletter">C</span>HALLENGER <span className="homepage-text-header-firstletter">B</span>UILDS
         </div>
         <div className="homepage-text-content">
-          THIS WEBSITE IS UNDER CONSTRUCTION.
-        </div>
-        <div className="homepage-text-content">
-          DATA HAS BEEN FETCHED ONLY FOR THE CHAMPION <span className="homepage-text-content-olaf">"OLAF"</span>.
+          Challenger Builds helps players build the best items for their champions. It looks at the matches of hundreds of different challenger players across servers and finds the best builds.
         </div>
       </div>
     </div>

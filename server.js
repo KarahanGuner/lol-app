@@ -16,7 +16,7 @@ if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-const amountOfPlayersFromEachServer = 15; //we look at the last 50 matches
+const amountOfPlayersFromEachServer = 100; //we look at the last 50 matches
 const beginTime = '1605225600000'; //will get matches starting from this epoch time point
 const itemDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'item.json')));
 const runesDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'runesReforged.json')));
@@ -170,9 +170,9 @@ var getChallengerListNA1Job = new CronJob('03 23 * * 0', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengerssummoneridna1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-// getChallengerListEUW1Job.start();
-// getChallengerListKRJob.start();
-// getChallengerListNA1Job.start();
+getChallengerListEUW1Job.start();
+getChallengerListKRJob.start();
+getChallengerListNA1Job.start();
 
 //getting accountid from summonerid
 var getAccountIDFromSummonerIDEUW1Job = new CronJob('04 23 * * 0', function() {
@@ -208,9 +208,9 @@ var getAccountIDFromSummonerIDNA1Job = new CronJob('06 23 * * 0', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersaccountidna1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-// getAccountIDFromSummonerIDEUW1Job.start();
-// getAccountIDFromSummonerIDKRJob.start();
-// getAccountIDFromSummonerIDNA1Job.start();
+getAccountIDFromSummonerIDEUW1Job.start();
+getAccountIDFromSummonerIDKRJob.start();
+getAccountIDFromSummonerIDNA1Job.start();
 
 //getting match list from account id
 var getMatchListFromAccountIDEUW1Job = new CronJob('07 23 * * *', function() {
@@ -243,9 +243,9 @@ var getMatchListFromAccountIDNA1Job = new CronJob('09 23 * * *', function() {
         fs.writeFileSync(path.join(__dirname, 'data/challengers', 'challengersmatchlistna1.json'), stringdata); 
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-// getMatchListFromAccountIDEUW1Job.start();
-// getMatchListFromAccountIDKRJob.start();
-// getMatchListFromAccountIDNA1Job.start();
+getMatchListFromAccountIDEUW1Job.start();
+getMatchListFromAccountIDKRJob.start();
+getMatchListFromAccountIDNA1Job.start();
 
 //creating match lists for each champion
 var createMatchListForEachChampionEUW1Job = new CronJob('10 23 * * *', function() {
@@ -267,7 +267,6 @@ var createMatchListForEachChampionEUW1Job = new CronJob('10 23 * * *', function(
             }
         }
     }
-    matchListForEachChampionEUW1 = matchListForEachChampionEUW1.slice(0,3);
     let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
     let championCounter = 0;
     Promise.all(matchListForEachChampionEUW1.map(function(champion){
@@ -409,7 +408,6 @@ var createMatchListForEachChampionKRJob = new CronJob('18 23 * * *', function() 
             }
         }
     }
-    matchListForEachChampionKR = matchListForEachChampionKR.slice(0,3);
     let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
     let championCounter = 0;
     Promise.all(matchListForEachChampionKR.map(function(champion){
@@ -550,7 +548,6 @@ var createMatchListForEachChampionNA1Job = new CronJob('24 23 * * *', function()
             }
         }
     }
-    matchListForEachChampionNA1 = matchListForEachChampionNA1.slice(0,3);
     let positionOrder =['Top', 'Mid', 'Bot', 'Support', 'Jungle'];
     let championCounter = 0;
     Promise.all(matchListForEachChampionNA1.map(function(champion){
@@ -672,9 +669,9 @@ var createMatchListForEachChampionNA1Job = new CronJob('24 23 * * *', function()
         }
     }).catch(e => console.log(e));
 }, null, false, 'America/Los_Angeles');
-// createMatchListForEachChampionEUW1Job.start();
-// createMatchListForEachChampionKRJob.start();
-// createMatchListForEachChampionNA1Job.start();
+createMatchListForEachChampionEUW1Job.start();
+createMatchListForEachChampionKRJob.start();
+createMatchListForEachChampionNA1Job.start();
 
 
 app.listen(PORT, error => {

@@ -19,13 +19,13 @@
 }
 
 .homepage-text-content {
+    margin: auto;
+    width: 800px;
     color: white;
-    font-size: 30px;
+    font-size: 18px;
+    text-shadow: 2px 2px 4px #000000;
 }
 
-.homepage-text-content-olaf {
-    color: red;
-}
 
 .homepage {
     height: 100vh;
@@ -53,8 +53,9 @@
     }
     
     .homepage-text-content {
-        font-size: 16px;
-        margin-left: 4px;
-        margin-right: 4px;
+        display: none;
+        margin-top: 5px;
+        font-size: 12px;
+        width: 94vw;
     }
 }
