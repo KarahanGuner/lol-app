@@ -3,13 +3,13 @@ import './championdetailstop.styles.css';
 import {currentPatch, championNames} from '../../miscData.js';
 
 function ChampionDetailsTop(props) {
-  const {championDdragonName, numberOfGames, championNameForHeader} = props;
+  const {championDdragonName, numberOfGames, championNameForHeader, loading} = props;
   return (
     <div className="championdetailstop">
       <img className="champion-picture" src={`https://ddragon.leagueoflegends.com/cdn/${currentPatch}/img/champion/${championDdragonName}.png`} alt="champion"/>
       <div className="championdetailstop-textgroup">
         <div className="championdetailstop-championname">{championNames.find(champion => (champion.replace(/\s/g, '').toLowerCase()) == championNameForHeader)} </div>
-        <div>Games Played:&nbsp;<span className="championdetailstop-thenumber">{numberOfGames}</span></div>
+        <div>Games Played:&nbsp;<span className="championdetailstop-thenumber">{!loading ? numberOfGames : null}</span></div>
       </div>
 
     </div>
