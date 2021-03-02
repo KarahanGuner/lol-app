@@ -38,7 +38,7 @@ function ChampionDetails() {
 
   return (
     <div className="championdetails">
-      <ChampionDetailsTop championDdragonName={championDdragonName} numberOfGames={matches.length} />
+      <ChampionDetailsTop championDdragonName={championDdragonName} numberOfGames={matches.length} championNameForHeader={champion}/>
       <ChampionDetailsBottom championDdragonName={championDdragonName} matches={matches}/>
     </div>
     

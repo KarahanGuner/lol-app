@@ -235,7 +235,7 @@ export const championLowerCaseNameDdragonNamePairs = {
      maokai: 'Maokai',
      masteryi: 'MasterYi',
      missfortune: 'MissFortune',
-     wukong: 'Wukong',
+     wukong: 'MonkeyKing',
      mordekaiser: 'Mordekaiser',
      morgana: 'Morgana',
      nami: 'Nami',
