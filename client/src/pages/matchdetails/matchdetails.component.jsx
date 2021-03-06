@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useParams} from 'react-router-dom';
 import './matchdetails.styles.css';
 import axios from 'axios';
-import {championNameKeyPairs, championLowerCaseNameDdragonNamePairs, currentPatch} from '../../miscData.js';
+import {Helmet} from "react-helmet";
+import {championNameKeyPairs, championLowerCaseNameDdragonNamePairs, currentPatch, championNames} from '../../miscData.js';
 import MatchDetailsResultRow from '../../components/matchdetailsresultrow/matchdetailsresultrow.component';
 import MatchDetailsHeader from '../../components/matchdetailsheader/matchdetailsheader.component';
 import Spinner from '../../components/spinner/spinner.component';
@@ -56,6 +57,12 @@ function MatchDetails() {
 
   return (
     <div className="matchdetails">
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{`${championNames.find(championName => (championName.replace(/\s/g, '').toLowerCase()) == champion)} - Match Details`}</title>
+        <meta name="description" content={`${championNames.find(championName => (championName.replace(/\s/g, '').toLowerCase()) == champion)} Items, Skill Order, Runes, Masteries`} />
+        <meta name="robots" content="noindex"/>
+      </Helmet>
       {matchDetails ?  
       <div className="matchdetails-container">
         <div className="matchdetails-scoreboard-container">
