@@ -1,7 +1,7 @@
 .matchdetails-result-row-container{
     width: 820px;
     margin: auto;
-    border-bottom: 0.2px solid rgba(128, 128, 128, 0.2);
+    border-bottom: 1px solid rgba(128, 128, 128, 0.2);
 }
 
 .matchdetails-result-row {
