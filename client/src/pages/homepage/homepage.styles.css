@@ -1,5 +1,18 @@
+.homepage-header {
+    color: #eed15f;
+    text-shadow: 4px 4px 8px #000000;
+    margin-top: 10px;
+    text-align: right;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+/* .homepage-header span{
+    margin-right: 3vw;
+} */
+
 .search {
-    margin-top: 30vh;
+    margin-top: 25vh;
 }
 
 .homepage-text {
@@ -57,5 +70,9 @@
         margin-top: 5px;
         font-size: 12px;
         width: 94vw;
+    }
+
+    .homepage-header {
+        font-size: 20px;
     }
 }

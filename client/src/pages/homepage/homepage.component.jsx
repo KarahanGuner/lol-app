@@ -1,5 +1,6 @@
 import React from 'react';
 import './homepage.styles.css';
+import {Link} from 'react-router-dom';
 import Search from '../../components/search/search.component.jsx'
 
 
@@ -7,6 +8,7 @@ function Homepage() {
 
   return (
     <div className="homepage">
+      <div className="homepage-header"><Link style={{textDecoration: 'none', color: '#eed15f', marginRight: '3vw'}} to="/champions"><span>Champions</span></Link><Link style={{textDecoration: 'none', color: '#eed15f', marginRight: '3vw'}} to="/about"><span>About</span></Link></div>
       <div className="search">
         <Search/>
       </div>

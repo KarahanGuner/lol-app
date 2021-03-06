@@ -1,0 +1,39 @@
+.about {
+    min-height: 100vh;
+    background-color: #1C2636;
+    color: white;
+}
+
+.about-container {
+    width: 900px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.about-header {
+    text-align: left;
+    font-size: 40px;
+    color: #eed15f;
+    text-shadow: 2px 2px 4px #000000;
+}
+.about-content {
+    margin-top: 15px;
+    text-align: left;
+}
+
+.about-contact {
+    margin-top: 30px;
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.about-contact .about-contact-header {
+    color: #eed15f;
+}
+
+@media (max-width: 760px) {
+    .about-container {
+        width: 94vw;
+        margin-top: 10px;
+    }
+}

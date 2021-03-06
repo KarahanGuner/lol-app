@@ -1,0 +1,32 @@
+.champions {
+    min-height: 100vh;
+    background-color: #1C2636;
+    color: white;
+}
+
+.champions-container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    width: 1000px;
+    margin: auto;
+    margin-top: 20px;
+}
+
+.champions-header{
+    margin: auto;
+    font-size: 40px;
+    color: #EED15F;
+    text-shadow: 2px 2px 4px #000000;
+}
+.champions-header .champions-header-firstletter{
+    font-size: 50px;
+}
+
+
+
+@media (max-width: 760px) {
+    .champions-container {
+        width: 94vw;
+    }
+}
