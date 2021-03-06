@@ -21,7 +21,7 @@ function Champions() {
       </Link>  
       
       <div className="champions-container">
-        {championNames.map(championName => <Link style={{textDecoration: 'none', color: '#e7effa', marginBottom: '20px'}} to={`/champions/${championName.replace(/\s/g, '').toLowerCase()}`}><ChampionCard championName={championName}/></Link>)}
+        {championNames.map((championName, i) => <Link key={i} style={{textDecoration: 'none', color: '#e7effa', marginBottom: '20px'}} to={`/champions/${championName.replace(/\s/g, '').toLowerCase()}`}><ChampionCard championName={championName}/></Link>)}
       </div>
     </div>
     
