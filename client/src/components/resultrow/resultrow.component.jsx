@@ -6,7 +6,6 @@ import ContentForTooltip from '../contentfortooltip/contentfortooltip.component'
 import {currentPatch} from '../../miscData';
 
 function ResultRow(props) {
-  console.log('resultrow rerendered')
 
   return (
     <div className="result-row-container">

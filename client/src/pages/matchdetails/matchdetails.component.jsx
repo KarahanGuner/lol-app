@@ -19,7 +19,6 @@ function MatchDetails() {
       url: `/matchapi/${server}/${gameid}/${championKey}`,
       method: 'get',
     }).then(response => {
-        console.log(response);
         response.data[0].participants.forEach(participant => {
           let playerChampionName;
           for(let _champion in championNameKeyPairs){

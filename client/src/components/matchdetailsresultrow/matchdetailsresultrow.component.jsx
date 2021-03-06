@@ -7,7 +7,6 @@ import {currentPatch} from '../../miscData';
 import {Link} from 'react-router-dom';
 
 function MatchDetailsResultRow(props) {
-  console.log('matchdetailsresultrow rerendered')
   return (
     <div className="matchdetails-result-row-container">
     <div className="matchdetails-result-row">

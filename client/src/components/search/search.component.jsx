@@ -11,7 +11,6 @@ const Search = (props) => {
 
     const handleSubmit= (event) => {
         event.preventDefault();
-        console.log('you searched for = ' + searchTerm);
     }
 
     return (
