@@ -46,7 +46,7 @@ function ChampionDetails() {
         <link rel="canonical" href={`https://www.challengerbuilds.net/champions/${champion}`} />
       </Helmet>
       <ChampionDetailsTop championDdragonName={championDdragonName} numberOfGames={matches.length} championNameForHeader={champion} loading={loading}/>
-      <ChampionDetailsBottom championDdragonName={championDdragonName} matches={matches} loading={loading}/>
+      <ChampionDetailsBottom championName={champion} championDdragonName={championDdragonName} matches={matches} loading={loading}/>
     </div>
     
   );

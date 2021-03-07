@@ -31,6 +31,7 @@ function MatchDetails() {
           if(participant.championId == championKey){
             changeOurParticipantId(participant.participantId);
           }
+          participant.linkName = playerChampionName;
           playerChampionName = championLowerCaseNameDdragonNamePairs[playerChampionName];
           participant.championName = playerChampionName;
         });
@@ -74,7 +75,7 @@ function MatchDetails() {
             }
           })}</div></div>
           <MatchDetailsHeader></MatchDetailsHeader>
-          {matchDetails[0].participants.slice(0, 5).map((participant, i) => <MatchDetailsResultRow key={i} linkProps={{server: matchDetails[0].platformId, gameId: matchDetails[0].gameId, championName: participant.championName}} participantStats={participant} chosenParticipantKey={championKey} participantIdentity={matchDetails[0].participantIdentities[i].player.summonerName}/>)}
+          {matchDetails[0].participants.slice(0, 5).map((participant, i) => <MatchDetailsResultRow key={i} linkProps={{server: matchDetails[0].platformId, gameId: matchDetails[0].gameId, championName: participant.linkName}} participantStats={participant} chosenParticipantKey={championKey} participantIdentity={matchDetails[0].participantIdentities[i].player.summonerName}/>)}
           <div className="matchdetails-scoreboard-redteam"><div><span style={{color: '#f85151', fontSize: '20px'}}>RED TEAM</span> - {matchDetails[0].teams.win === "Win" ? `DEFEAT` : `VICTORY`}</div><div className="matchdetails-banned-champions">Bans:&nbsp;{matchDetails[0].teams[1].bans.map((bannedChampion, i) => {
             for(let _champion in championNameKeyPairs){
               if(championNameKeyPairs[_champion] == bannedChampion.championId){
@@ -83,7 +84,7 @@ function MatchDetails() {
             }
           })}</div></div>
           <MatchDetailsHeader></MatchDetailsHeader>
-          {matchDetails[0].participants.slice(5, 10).map((participant, i) => <MatchDetailsResultRow linkProps={{server: matchDetails[0].platformId, gameId: matchDetails[0].gameId, championName: participant.championName}} key={i+5} participantStats={participant} chosenParticipantKey={championKey} participantIdentity={matchDetails[0].participantIdentities[i+5].player.summonerName}/>)}
+          {matchDetails[0].participants.slice(5, 10).map((participant, i) => <MatchDetailsResultRow linkProps={{server: matchDetails[0].platformId, gameId: matchDetails[0].gameId, championName: participant.linkName}} key={i+5} participantStats={participant} chosenParticipantKey={championKey} participantIdentity={matchDetails[0].participantIdentities[i+5].player.summonerName}/>)}
           <div className="matchdetails-scoreboard-gameduration">Game Duration: {`${Math.floor(matchDetails[0].gameDuration/60)} Minutes`}</div>
         </div>
         <div className="matchdetails-timeline-container">

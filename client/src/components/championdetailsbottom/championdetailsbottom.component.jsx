@@ -10,7 +10,7 @@ function ChampionDetailsBottom(props) {
     <div className="championdetailsbottom">
       {!props.loading ? <div className="results-container">
         <ResultRowHeader></ResultRowHeader> 
-        {props.matches.map((match, i) =><Link key={i} style={{textDecoration: 'none'}} to={`/matches/${match.server}/${match.gameId}/${props.championDdragonName}`}><ResultRow  championDdragonName={props.championDdragonName} match={match}/></Link>)}
+        {props.matches.map((match, i) =><Link key={i} style={{textDecoration: 'none'}} to={`/matches/${match.server}/${match.gameId}/${props.championName}`}><ResultRow  championDdragonName={props.championDdragonName} match={match}/></Link>)}
       </div> : <Spinner/>}
 
       
