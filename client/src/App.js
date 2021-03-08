@@ -6,16 +6,10 @@ import ChampionDetails from './pages/championdetails/championdetails.component.j
 import MatchDetails from './pages/matchdetails/matchdetails.component.jsx';
 import ErrorBoundary from './components/errorboundary/errorboundary.component';
 import {Switch, Route, Redirect} from 'react-router-dom';
-import {Helmet} from "react-helmet";
 
 function App() {
   return (
     <div className="App">
-      <Helmet>
-        <meta charSet="utf-8" />
-        <title>Challenger Builds</title>
-        <meta name="description" content="Challenger Builds helps players build the best items for their champions. It looks at the matches of hundreds of different challenger players across servers and finds the best builds." />
-      </Helmet>
       <Switch>
           <Route exact path='/'>
             <Homepage/>
