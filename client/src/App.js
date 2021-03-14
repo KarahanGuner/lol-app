@@ -6,13 +6,14 @@ import Champions from './pages/champions/champions.component.jsx';
 import ChampionDetails from './pages/championdetails/championdetails.component.jsx';
 import MatchDetails from './pages/matchdetails/matchdetails.component.jsx';
 import ErrorBoundary from './components/errorboundary/errorboundary.component';
-import {Switch, Route, Redirect} from 'react-router-dom';
+import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
 import ReactGA from 'react-ga';
+ReactGA.initialize('UA-192120680-1');
 
 function App() {
   useEffect(() => {
-    ReactGA.initialize('UA-192120680-1');
-    ReactGA.pageview(window.location.pathname + window.location.search);
+    console.log(window.location.pathname + window.location.search)
+    ReactGA.pageview(window.location.pathname + window.location.search); 
   });
 
   return (
@@ -45,4 +46,4 @@ function App() {
   );
 }
 
-export default App;
+export default withRouter(App);
