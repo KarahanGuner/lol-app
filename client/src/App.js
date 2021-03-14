@@ -1,4 +1,5 @@
 import './App.css';
+import React, {useEffect} from 'react';
 import Homepage from './pages/homepage/homepage.component.jsx';
 import About from './pages/about/about.component.jsx';
 import Champions from './pages/champions/champions.component.jsx';
@@ -6,8 +7,14 @@ import ChampionDetails from './pages/championdetails/championdetails.component.j
 import MatchDetails from './pages/matchdetails/matchdetails.component.jsx';
 import ErrorBoundary from './components/errorboundary/errorboundary.component';
 import {Switch, Route, Redirect} from 'react-router-dom';
+import ReactGA from 'react-ga';
 
 function App() {
+  useEffect(() => {
+    ReactGA.initialize('G-1W6TF08LWR');
+    ReactGA.pageview(window.location.pathname + window.location.search);
+  });
+
   return (
     <div className="App">
       <Switch>
