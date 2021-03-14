@@ -7,13 +7,15 @@ import ChampionDetails from './pages/championdetails/championdetails.component.j
 import MatchDetails from './pages/matchdetails/matchdetails.component.jsx';
 import ErrorBoundary from './components/errorboundary/errorboundary.component';
 import {Switch, Route, Redirect, withRouter} from 'react-router-dom';
+
 import ReactGA from 'react-ga';
-ReactGA.initialize('UA-192120680-1');
+
+ReactGA.initialize('UA-192139836-1');
+
 
 function App() {
   useEffect(() => {
-    console.log(window.location.pathname + window.location.search)
-    ReactGA.pageview(window.location.pathname + window.location.search); 
+    ReactGA.pageview(window.location.pathname); 
   });
 
   return (
