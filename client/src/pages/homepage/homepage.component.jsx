@@ -17,7 +17,7 @@ function Homepage() {
           <span className="homepage-text-header-firstletter">C</span>HALLENGER <span className="homepage-text-header-firstletter">B</span>UILDS
         </div>
         <div className="homepage-text-content">
-          Challenger Builds helps players build the best items for their champions. It looks at the matches of hundreds of different challenger players across servers and finds the best builds.
+          Challenger Builds helps League of Legends players build the best items for their champions. It looks at the matches of hundreds of different challenger players across servers and finds the best builds.
         </div>
       </div>
     </div>
