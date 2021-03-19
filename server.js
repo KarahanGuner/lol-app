@@ -34,26 +34,12 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 
 app.get('/championapi/:championkey', function(req, res){
-    console.log('/championapi/:championkey have been hit');
     const championKey = req.params.championkey;
-    var matchList = [];
     Promise.all([
         readFileContent(path.join(__dirname, `data/champions/${championKey}`, 'matchlisteuw1.json')).then(data => JSON.parse(data)).catch(e => console.log(e)),
         readFileContent(path.join(__dirname, `data/champions/${championKey}`, 'matchlistkr.json')).then(data => JSON.parse(data)).catch(e => console.log(e)),
         readFileContent(path.join(__dirname, `data/champions/${championKey}`, 'matchlistna1.json')).then(data => JSON.parse(data)).catch(e => console.log(e))]).then(matches => {
-            //push matches into a comman array one by one
-                for(let i = 0; i < Math.max(matches[0] ? matches[0].length : 0, matches[1] ? matches[1].length : 0, matches[2] ? matches[2].length : 0); i++){
-                    if(matches[0] && matches[0][i]){
-                        matchList.push(matches[0][i])
-                    }
-                    if(matches[1] && matches[1][i]){
-                        matchList.push(matches[1][i])
-                    }
-                    if(matches[2] && matches[2][i]){
-                        matchList.push(matches[2][i])
-                    }
-                }
-                res.status(200).send(matchList)
+            res.status(200).send([...matches[0], ...matches[1], ...matches[2]])
         }).catch(e => {res.status(500).send(e);});
 });
 
