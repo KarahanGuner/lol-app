@@ -35,11 +35,15 @@ app.use(express.static(path.join(__dirname, 'client/build')));
 
 app.get('/championapi/:championkey', function(req, res){
     const championKey = req.params.championkey;
+    let matchList = [];
     Promise.all([
         readFileContent(path.join(__dirname, `data/champions/${championKey}`, 'matchlisteuw1.json')).then(data => JSON.parse(data)).catch(e => console.log(e)),
         readFileContent(path.join(__dirname, `data/champions/${championKey}`, 'matchlistkr.json')).then(data => JSON.parse(data)).catch(e => console.log(e)),
         readFileContent(path.join(__dirname, `data/champions/${championKey}`, 'matchlistna1.json')).then(data => JSON.parse(data)).catch(e => console.log(e))]).then(matches => {
-            res.status(200).send([...matches[0], ...matches[1], ...matches[2]])
+            if(matches[0]) matchList.push(...matches[0]);
+            if(matches[1]) matchList.push(...matches[1]);
+            if(matches[2]) matchList.push(...matches[2]);  
+            res.status(200).send(matchList)
         }).catch(e => {res.status(500).send(e);});
 });
 
