@@ -9,9 +9,8 @@ var CronJob = require('cron').CronJob;
 const util = require('util');
 const compression = require('compression');
 const championBuckets = require('./data/misc/championBuckets');
-const { json } = require('body-parser');
+const rateLimit = require("express-rate-limit");
 
-//are you gonna use express-sslify?
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
 const app = express();
@@ -24,6 +23,12 @@ const summonerSpellsDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `d
 const statPerksDdragon = JSON.parse(fs.readFileSync(path.join(__dirname, `data/details/en_GB`, 'statperks.json')));
 const readFileContent = util.promisify(fs.readFile);//makes readFile work as promise instead of callback
 
+
+app.set('trust proxy', 1); //needed for express-rate-limit
+const apiLimiter = rateLimit({
+    windowMs: 5 * 1000, // 5 seconds
+    max: 5
+});
 //middlewares
 app.use(compression());
 app.use(bodyParser.json());//parse json
@@ -33,7 +38,7 @@ app.use(cors()); // will cors stay in production?
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 
-app.get('/championapi/:championkey', function(req, res){
+app.get('/championapi/:championkey', apiLimiter, function(req, res){
     const championKey = req.params.championkey;
     let matchList = [];
     Promise.all([
@@ -48,7 +53,7 @@ app.get('/championapi/:championkey', function(req, res){
 });
 
 
-app.get('/matchapi/:server/:gameid/:championkey', function(req, res){
+app.get('/matchapi/:server/:gameid/:championkey', apiLimiter, function(req, res){
     const server = req.params.server;
     const gameid = req.params.gameid;
     const championkey = req.params.championkey;
