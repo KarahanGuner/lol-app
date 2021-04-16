@@ -225,7 +225,7 @@
 
 
 
-@media (max-width: 760px) {
+@media (max-width: 1280px) {
     .matchdetails-container {
         width: 94vw;
         margin: auto;
@@ -237,9 +237,18 @@
     }
     .matchdetails-abilityorder-container {
         width: 820px;
+        margin: auto;
+        margin-top: 30px;
+    }
+    .matchdetails-timeline-container {
+        width: 820px;
+        margin: auto;
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
     }
 }
-@media (min-width: 760px) {
+@media (min-width: 1280px) {
     .matchdetails-timeline-items {
         flex-wrap: wrap;
     }
